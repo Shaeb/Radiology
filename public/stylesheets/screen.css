@@ -121,6 +121,15 @@ div#document-body {
 	margin: 1em;
 }
 
+.autosuggest-text {
+	width: 60%;
+	font-size: 18pt;
+}
+
+.autosuggest-options {
+	font-size: 14pt;
+}
+
 /** utility styles */
 ul#errors{
 	background-color: #FFFF99;

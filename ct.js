@@ -50,14 +50,14 @@ exports.list_schedule = function(req, res){
 exports.autosuggest = function(req, res){
 	query = '';
 	//params = new Array();
-	switch(req.params.target){
+	switch(req.query.target){
 		case 'mrn':
-			query = "select * from ct_schedule where mrn like '" + req.query.q + "%'";
+			query = "select * from ct_schedule where mrn like '" + req.query.term + "%'";
 			//params = [req.query.q];
 			break;
 		case 'patient':
 		default:
-			query = "select * from ct_schedule where first_name like '%" + req.query.q + "%' or last_name like'%" + req.query.q + "%'";
+			query = "select * from ct_schedule where first_name like '%" + req.query.term + "%' or last_name like'%" + req.query.term + "%'";
 			//params = [req.query.q, req.query.q];
 			break;			
 	}
@@ -66,15 +66,13 @@ exports.autosuggest = function(req, res){
 	res.db.client.connect();
 	res.db.client.query(query, function(error, results, field){
 		response = new Array();
-		if(error || results.length ==0){
-			response.push( {id: 1, value: error});
+		if(error || results.length == 0){
+			response.push( {value: 1, label: 'No results found.'});
 		} else {
-			for(result in results){
-				console.log('results: ' + result);
-				response.push({item: result.id, value:result.first_name});
+			for(var i = 0; i < results.length; (++i)){
+				response.push({value: results[i].id, label: results[i].first_name + ' ' + results[i].last_name});
 			}
 		}
-		console.log('result: ' + JSON.stringify(response));
 		res.db.client.end();
 		res.contentType('json');
 		res.send(JSON.stringify(response));

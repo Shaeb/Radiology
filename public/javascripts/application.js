@@ -1,14 +1,23 @@
 $(document).ready(function(){
-	$('#ct-patient-autosuggest').autoSuggest($('#ct-patient-autosuggest').attr('rel'), {
-		minChars: 2,
-		matchCase: true /**,
-		retrieveComplete: function(data){
-			returnValue = new Array();
-			for(datum in data){
-				returnValue.push({ item: datum.id, value: datum.first_name});
-			}
-			return returnValue;
-		}**/
+	
+	$('#ct-patient-autosuggest').autocomplete({
+		minLength: 2,
+		select: function(event, ui){
+			this.value = ui.item.label;
+			return false;
+		},
+		source: function(request, response){
+			url = $('#ct-patient-autosuggest').attr('rel');
+			option = $('#ct-patient-autosuggest-options option:selected').val();
+			lastXHR = $.getJSON(
+				url,
+				{ term: request.term, target: option },
+				function(data, status, xhr){
+					if( xhr === lastXHR ){
+						response(data);
+					}
+				});
+		}
 	});
 	$('.rip').bind('dblclick', rip);
 	if("a[rel]"){
