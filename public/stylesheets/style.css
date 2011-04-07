@@ -1,0 +1,16 @@
+body {
+  padding: 0;
+	margin: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	background-image: url('../images/tartan_fcc734770d114ca8b002dfb50fad1a3a.png');
+}
+
+a {
+  color: #00B7FF;
+}
+
+div#navigation{
+	background: -webkit-gradient(linear, left top, left bottom, from(#E4F3FF), to(#9bb2d7));
+	background: -moz-linear-gradient(top,  #E4F3FF,  #9bb2d7);
+	color: #000;
+}

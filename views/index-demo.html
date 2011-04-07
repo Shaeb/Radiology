@@ -1,0 +1,86 @@
+<html>
+	<head>
+		<title>Duke Demo</title>
+		<link rel="stylesheet" href="resources/styles/screen.css"/>
+		<script type="text/javascript" src="resources/javascript/jquery-1.5.js"></script>
+		<script type="text/javascript" src="resources/javascript/application.js"></script>
+	</head>
+	<body id="body">
+		<ul id="navigation">
+			<li>Area</li>
+			<li>File</li>
+			<li>Lookup</li>
+		</ul>
+		<div id="document-container" class="shadow">
+			<div id="document-header">
+				<h2>CT Nursing Contrast Sheet</h2>
+				<p>
+					LastName, FirstName<br/>
+					DOB - Age<br/>
+					MR# AB0000
+				</p>
+				<br class="clear-left"/>
+			</div>
+			<div id="document-body">
+				<div id="allergy-box" class="shadow">
+					<img src="resources/images/plus.png" id="allergy-trigger" /><h3>Allergies:</h3> Magnesium, Potassium, Sodium, Oxygen, Kidneys
+				</div>
+				<div id="allergy-rip-dialog">
+					<div id="allergy-rip-modal">
+						Allergen: <input type="text"/> Reaction: <input type="text" /> <input type="button" value="Save Allergy"/>
+					</div>
+				</div>
+				<h3>Triage Questions</h3>
+				<ol id="triage-questions">
+					<li>Prior iodinated contrast media?</li>
+					<li>Reaction? Describe: <input type="text"/></li>
+					<li>Steroid prep?</li>
+					<li>Adverse food and drug reactions.</li>
+					<li>Asthma? <input type="radio" name="asthma"/>Mild <input type="radio" name="asthma"/>Moderate <input type="radio" name="asthma"/>Severe</li>
+					<li>Renal Disease: <input type="checkbox"/> Transplant <input type="checkbox"/> Nephrectomy <input type="checkbox"/> Dialysis</li>
+					<li>Diabetes? <input type="checkbox"/> Insulin <input type="checkbox"/> Metformin <input type="checkbox"/> Other</li>
+					<li>Glucophage/Metformin: <input type="checkbox"/> Instructions given <input type="checkbox"/> Verbaizes understanding</li>
+					<li>Recent Chemotherapy: Date: <input type="text"/> Meds: <input type="text"/></li>
+					<li>Myasthenia Gravis, Multiple Myeloma, Hyperthyroidism</li>
+					<li>Sickle Cell Disease?  In crisis now? <input type="checkbox"/> Yes <input type="checkbox"/> No</li>
+					<li>Pregnant? LMP <input type="text"/></li>
+					<li>Emergent study in whom communication cannot be established?</li>
+					<li>Dr. <input type="text"/> consulted about possible contraindications.</li>
+					<li>Response: <input type="text"/></li>
+					<li>Patient instructed to increase fluid x48 hours.</li>
+					<li>The patient was educated about contrast media.</li>
+				</ol>
+				<h3>IV Data</h3>
+				<ul>
+					<li>Status: <input type="checkbox"/> Existing <input type="checkbox"/> Started in department</li>
+					<li>Gauge:
+						<select>
+							<option>16g</option>
+							<option>18g</option>
+							<option selected="true">20g</option>
+							<option>22g</option>
+							<option>24g</option>
+							<option>Central Line</option>
+							<option>Port</option>
+						</select> 
+					</li>
+					<li>Side: <input type="checkbox"/>Right <input type="checkbox"/> Left</li>
+					<li>Site:
+						<select>
+							<option>Jugular</option>
+							<option>Subclavian</option>
+							<option>Upper Arm</option>
+							<option selected="true">Antecubital</option>
+							<option>Forearm</option>
+							<option>Wrist</option>
+							<option>Hand</option>
+						</select> 
+					</li>
+				</ul>
+				<p>
+					<strong>Screen completed by:</strong> <input type="text"/>
+				</p>
+			</div>
+		</div>
+	</body>
+</html>

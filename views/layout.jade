@@ -1,0 +1,19 @@
+!!!
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/screen.css')
+    link(rel='stylesheet', href='/stylesheets/effects.css')
+    script(type='text/javascript', src='/javascripts/jquery-1.5.js')
+    script(type='text/javascript', src='/javascripts/application.js')
+  body#body
+    #document-container.shadow.vertical-center
+      #document-header
+        h1 Login to Duke Radiology
+      #document-body
+        -if(typeof error !== "undefined")
+          -if(error)
+            ul#errors.rounded-corners
+              -each error in flash
+                li= error
+        != body

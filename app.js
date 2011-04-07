@@ -1,0 +1,154 @@
+
+/**
+ * Module dependencies.
+ */
+
+var express = require('express'),
+	ct = require('./ct'),
+	user = require('./users'),
+	mongoose = require('mongoose'),
+	form_models = require('./models/forms'),
+	ct_form;
+
+var app = module.exports = express.createServer();
+
+// Configuration
+
+app.configure(function(){
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'jade');
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(express.cookieParser());
+  app.use(express.session({ secret: 'smorge is cool' }));
+  app.use(express.compiler({ src: __dirname + '/public', enable: ['sass'] }));
+  app.use(app.router);
+  app.use(express.static(__dirname + '/public'));
+  app.use(express.bodyParser());
+});
+
+app.configure('development', function(){
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+});
+
+app.configure('production', function(){
+  app.use(express.errorHandler()); 
+});
+
+app.dynamicHelpers({ messages: require('express-messages') });
+
+// mongodb models
+form_models.defineFormModels(mongoose, function(){
+	app.ct_form = CTForm = mongoose.model('ct_form');
+});
+
+// Routes
+
+app.get('/', function(req, res){
+  res.render('index', { title: 'layout'});
+});
+
+app.get('/message', function( req, res){
+	res.render('index', {
+		title: 'message in a bottle',
+		layout: 'demo'
+	});
+});
+
+app.get('/:area/:action.:format?/:target', setupDB, function(req, res){
+	if(req.params.area == 'ct'){
+		switch(req.params.action){
+			case 'autosuggest':
+				ct.autosuggest(req, res);
+				break;
+			case 'list':
+				if(req.params.target == 'schedule')
+					ct.list_schedule(req, res);
+				break;
+		}
+	}
+});
+
+// ct form
+app.get('/forms/:area/:id?', retrieveNurses, function(req, res){
+	switch(req.params.area){
+		case 'ct_form':
+			ct.view(req, res);
+			break;
+	}
+});
+
+app.post('/forms/:area/:action', connectToMongoose, function(req, res){
+	switch(req.params.action){
+		case 'process':
+			ct.post(req, res);
+			break;
+	}
+});
+
+// user manipulation
+app.post('/user/:action', setupDB, function(req, res){
+	switch(req.params.action){
+		case 'login':
+			user.login(req, res);
+			break;
+	}
+});
+
+// errors
+app.error(function(err, req, res){
+  res.render('500', {
+     error: err
+  });
+});
+
+// custom middleware
+
+function retrieveNurses(req, res, next){
+	var Client = require('mysql').Client,
+		client = new Client();
+	
+	client.user = 'root';
+	client.password = 'felix123';
+	client.database = 'radiology';
+	res.db = { client: client };
+	next();
+}
+
+function setupDB(req, res, next){
+	var Client = require('mysql').Client,
+		client = new Client();
+	
+	client.user = 'nodeapp';
+	client.password = 'n0d34pp';
+	//client.user = 'root';
+	//client.password = 'georgie';
+	client.database = 'radiology';
+	res.db = { client: client };
+	next();
+}
+
+function connectToMongoose(req, res, next){
+	mongoose.connect('mongodb://localhost/radiology');
+	var model = mongoose.model(req.params.area);
+	model = new model();
+	req.mongoose = {
+		db: mongoose,
+		model: model
+	};
+	delete model;
+	next();
+}
+
+/**
+process.on('uncaughtException', function (err) {
+  console.log('Caught exception: ' + err);
+	console.log('arguments: ' + arguments[0])
+});
+**/
+
+// Only listen on $ node app.js
+if (!module.parent) {
+  app.listen(3000);
+  console.log("Express server listening on port %d", app.address().port)
+}

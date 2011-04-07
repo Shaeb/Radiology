@@ -1,0 +1,7 @@
+form(method="post", action="/user/login", id="form-login", name="form-login")
+  input(type="hidden", name="action[login]", value="login")
+  p: label user: 
+    input(type="text", name="user[username]")
+  p: label password:
+    input(type="password", name="user[password]")
+  p: input(type="submit", name="submit[user-form]", value="login")

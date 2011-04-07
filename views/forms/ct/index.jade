@@ -1,0 +1,44 @@
+form(method="post", name="form-ct", id="form-ct", action="")
+  #allergy-box.shadow.rip
+    h3 Allergies:
+    | Magnesium, Potassium, Sodium, Oxygen, Kidneys
+  #allergy-box-rip-dialog.rip-dialog
+    #allergy-box-rip-modal.rip-modal
+      | Allergen: 
+      input(type="text")
+      | Reaction: 
+      input(type="text")
+      input(type="button", value="Save Allergy")
+  h3 Triage:
+  ol#triage-questions
+    != partial('question', results)
+  h3 IV Data
+  ul
+    li Status: 
+      label Existing: 
+        input(type="checkbox")
+      label Started in department: 
+        input(type="checkbox")
+    li Gauge: 
+      select(name="iv[gauge]")
+        option(value="16g") 16g
+        option(value="18g") 18g
+        option(selected="true", value="20g") 20g
+        option(value="22g") 22g
+        option(value="24g") 24g
+        option(value="Central Line") Central Line
+        option(value="Port") Port	
+    li Side: <input type="checkbox"/> Right <input type="checkbox"/> Left
+    li Site: 
+      select(name="iv[site]")
+        option(value="Jugular") Jugular
+        option(value="Subclavian") Subclavian
+        option(value="Upper Arm") Upper Arm
+        option(selected="true", value="Antecubital") Antecubital
+        option(value="Forearm") Forearm
+        option(value="Wrist") Wrist
+        option(value="Hand") Hand
+    p
+      strong Screen completed by:</strong> <input type="text" value="Nathan Bardgett, RN"/>
+    p
+      input(type="submit", value="Save")

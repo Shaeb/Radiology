@@ -1,0 +1,5 @@
+div( class="scheduled-patient rounded-corners patient-status-" + patient.status_id)
+	ul.list-no-decorations
+		li.patient-name-list <a href="/forms/ct_form/#{patient.mrn}">#{patient.last_name}, #{patient.first_name} #{patient.middle_name}</a>
+		li #{patient.date_of_birth}
+		li #{patient.mrn}

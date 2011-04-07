@@ -1,0 +1,151 @@
+form(method="post", name="form-ct", id="form-ct", action="/forms/ct_form/process")
+  #allergy-box.shadow.rip
+    h3 Allergies: #{allergies}
+  #allergy-box-rip-dialog.rip-dialog
+    #allergy-box-rip-modal.rip-modal
+      | Allergen: 
+      input(type="text", name="allergy[allergen]")
+      | Reaction: 
+      input(type="text", name="allergy[reaction]")
+      input(type="button", value="Save Allergy")
+  h3 Triage:
+  span <input type="hidden" name="triage[allergies]" value="#{allergies}"/>
+  input(type="hidden", name="patient[first_name]", value="Nathan")
+  input(type="hidden", name="patient[last_name]", value="Bardgett")
+  input(type="hidden", name="patient[date_of_birth]", value="05/29/1981")
+  input(type="hidden", name="patient[MRN]", value="GP9710")
+  ol#triage-questions
+    li: div#contrast-history-box.rip Contrast History
+      #contrast-history-box-rip-dialog.rip-dialog
+        #contrast-history-box-rip-modal.rip-modal 
+          ul.list-no-decorations
+            li: label Prior iodinated contrast media?
+              input(type="checkbox", name="contrast_history[prior_contrast]", value="false")
+            li: label Last contrasted study: 
+              input(type="text", name="contrast_history[last_contrast]", value="")
+            li: label Facility of last study: 
+              input(type="text", name="contrast_history[last_facility]", value="DUMC")
+            li: label Reaction to contrast dye? 
+              input(type="text", name="contrast_history[reaction_to_contrast]", value="")
+    li: div#steroid-prep-box.rip  Steroid prep?
+      #steroid-prep-box-rip-dialog.rip-dialog
+        #steroid-prep-box-rip-modal.rip-modal
+          label Predisone 13 hr Prep: 
+            input(type="checkbox", name="contrast_history[prednisone_prep]", value="false")
+          label Emergency 4 hr Prep: 
+            input(type="checkbox", name="contrast_history[emergency_prep]", value="false")
+          label Prep taken correctly?  
+            input(type="checkbox", name="contrast_history[prep_correctly_taken]", value="false")
+    li: div#asthma-box.rip Asthma?
+      #asthma-box-rip-dialog.rip-dialog
+        #asthma-box-rip-modal.rip-modal 
+          label Mild: 
+            input(type="checkbox",name="triage[asthma_mild]", value="false")
+          label Moderate: 
+            input(type="checkbox", name="triage[asthma_moderate]", value="false")
+          label Severe: 
+            input(type="checkbox", name="triage[asthma_severe]", value="false")
+    li: div#renal-box.rip Renal Disease?
+      #renal-box-rip-dialog.rip-dialog
+        #renal-box-rip-modal.rip-modal
+          label Transplant: 
+            input(type="checkbox", name="triage[transplant]", value="false")
+          label Nephrectomy: 
+            input(type="checkbox", name="triage[nephrectomy]", value="false")
+          label Dialysis: 
+            input(type="checkbox", name="triage[dialysis]", value="false")
+    li: div#diabetes-box.rip Diabetes? 
+      #diabetes-box-rip-dialog.rip-dialog
+        #diabetes-box-rip-modal.rip-modal
+          label Insulin:  
+            input(type="checkbox", name="triage[insulin]", value="false")
+          label Metformin: 
+            input(type="checkbox", name="triage[metformin]", value="false")
+          label Other: 
+            input(type="checkbox", name="triage[diabetes_other]", value="false") 
+    li: div#metformin-box.rip Glucophage/Metformin?
+      #metformin-box-rip-dialog.rip-dialog
+        #metformin-box-rip-modal.rip-modal
+          label Instructions given: 
+            input(type="checkbox", name="triage[instructions_given]", value="false")
+          label Verbalizes understanding:  
+            input(type="checkbox", name="triage[verbalizes_understanding]", value="false") 
+    li: div#chemotherapy-box.rip Recent Chemotherapy?
+      #chemotherapy-box-rip-dialog.rip-dialog
+         #chemotherapy-box-rip-modal.rip-modal
+           label Date: 
+             input(type="text", name="triage[chemo_date]", id="chemo_date", value="") 
+           label &nbsp;Meds: 
+             input(type="text", name="triage[chemo_drug]", id="chemo_drug", value="") 
+           &nbsp;
+           input(type="submit", value="Search", name="triage[submit]")
+    li: div#misc-diseases-box.rip Myasthenia Gravis, Multiple Myeloma, Hyperthyroidism?
+      #misc-diseases-box-rip-dialog.rip-dialog
+         #misc-diseases-box-rip-modal.rip-modal 
+           label Myasthenia Gravis: 
+            input(type="checkbox", name="triage[other_mg]", value="false")
+           label Multiple Myeloma: 
+             input(type="checkbox", name="triage[other_mm]", value="false")
+           label Hyperthyroidism:
+             input(type="checkbox", name="triage[other_hthy]", value="false")
+    li: div#ssd-box.rip Sickle Cell Disease?
+      #ssd-box-rip-dialog.rip-dialog
+        #ssd-box-rip-modal.rip-modal: In crisis now? 
+          label Yes 
+            input(type="checkbox", name="triage[ssd_crisis]", value="false")
+          label No 
+            input(type="checkbox", name="triage[ssd_no_crisis]", value="false")
+    li: div#pregnant-box.rip Pregnant or possibility of pregnancy?
+      #pregnant-box-rip-dialog.rip-dialog
+        #pregnant-box-rip-modal.rip-modal
+          ul.list-no-decorations
+           li: label LMP:  
+            input(type="text", name="triage[lmp]", id="triage_lmp", value="") 
+           li: label Is/Possibly Pregnant: 
+            input(type="checkbox, name="triage[pregnant]", value="false") 
+           li: label Denies possibility of pregnancy: 
+            input(type="checkbox", name="triage[denies_pregnancy]", value="false") 
+    li.subtle_list Emergent study in whom communication cannot be established?
+      input(type="hidden", name="triage[emergent_study]", value="false")
+    li: div#consult-box.rip Radiologist consulted about possible contraindications.
+      #consult-box-rip-dialog.rip-dialog
+        #consult-box-rip-modal.rip-modal
+          ul.list-no-decorations
+            li: label MD Name: 
+              input(type="text", name="md_contact[name]", value="")
+            li: label Response: 
+              textarea(name="md_contact[order]", cols="25", rows="5")
+    li.subtle_list Patient instructed to increase fluid x48 hours?
+      input(type="hidden", name="triage[instructions]", value="false")
+    li.subtle_list Patient instructed about the possible side effects of contrast?
+      input(type="hidden", name="triage[side_effects]", value="false")
+  h3 IV Data
+  ul
+    li Status: 
+      label Existing: 
+        input(type="checkbox")
+      label Started in department: 
+        input(type="checkbox")
+    li Gauge: 
+      select(name="iv[gauge]")
+        option(value="16g") 16g
+        option(value="18g") 18g
+        option(selected="true", value="20g") 20g
+        option(value="22g") 22g
+        option(value="24g") 24g
+        option(value="Central Line") Central Line
+        option(value="Port") Port	
+    li Side: <input type="checkbox"/> Right <input type="checkbox"/> Left
+    li Site: 
+      select(name="iv[site]")
+        option(value="Jugular") Jugular
+        option(value="Subclavian") Subclavian
+        option(value="Upper Arm") Upper Arm
+        option(selected="true", value="Antecubital") Antecubital
+        option(value="Forearm") Forearm
+        option(value="Wrist") Wrist
+        option(value="Hand") Hand
+    p
+      strong Screen completed by:</strong> <input type="text" value="Nathan Bardgett, RN"/>
+    p
+      input(type="submit", value="Save")

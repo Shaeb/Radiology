@@ -1,0 +1,22 @@
+!!!
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/screen.css')
+    script(type='text/javascript', src='/javascripts/jquery-1.5.js')
+    script(type='text/javascript', src='/javascripts/application.js')
+  body#body
+    ul#navigation.shadow
+      li: a(href="#") Area
+      li: a(href="#")  File
+      li: a(href="#") Lookup
+    #document-container.shadow
+      #document-header
+        h2 CT Nursing Contrast Sheet
+        ul.float-right
+          li LastName, FirstName
+          li DOB - Age
+          li MR# AB0000
+        br.clear-left
+      #document-body
+        != body
