@@ -1,0 +1,26 @@
+DATABASES:
+mongodb:
+http://www.mongodb.org/display/DOCS/Quickstart+OS+X
+mongod run --config /usr/local/Cellar/mongodb/1.8.0-x86_64/mongod.conf --rest
+
+mysql:
+sudo /Library/StartupItems/MySQLCOM/MySQLCOM start
+alias mysql=/Applications/xampp/xamppfiles/bin/mysql
+alias mysqladmin=/Applications/xampp/xamppfiles/bin/mysqladmin
+
+node-mysql
+
+redis:
+
+NODE:
+NPM
+Express
+Express-messages
+jade
+Mongoose
+node-mysql
+socket.io
+NVM (node version manager) - https://github.com/creationix/nvm
+
+command line utils:
+are you listening?: netstat -nat|grep LISTEN
