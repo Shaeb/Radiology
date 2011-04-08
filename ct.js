@@ -54,13 +54,61 @@ exports.show_calendar = function(req, res){
 		console.log(rows.row.data[i]);
 	}
 	**/
-	req.calendar.build();
-	console.log(req.calendar.data);
-	res.render('calendar', {
-		layout: './authenticated-layout',
-		title: 'CT Schedule',
-		showHeader: false,
-		calendar: req.calendar.data
+	res.db.client.typeCast = false;
+	res.db.client.connect();
+	res.db.client.query('select * from ct_schedule order by scheduled_time', function(error, results, fields){
+		if(error || 0 == results.length){
+			req.flash('error', 'No Patients Scheduled');
+			var flash = req.flash();
+			res.render('./index', {title: 'Error building schedule', error: true, flash: flash.error});
+		} else {
+			var scheduled_dates = new Array();
+			var regex = /^\d{4,4}(-\d{2,2}){2,2}/;
+			for(x = 0; x < results.length; (++x)){
+				if( 0 < regex.exec(results[x].scheduled_time).length)
+					//scheduled_dates.push(new Date(regex.exec(results[x].scheduled_time)[0]));
+					scheduled_dates.push(regex.exec(results[x].scheduled_time)[0]);
+			}
+			req.calendar.build(req.calendar.constants.BUILD_MONTH);
+			var rows = req.calendar.data.table.body.rows;
+			var dates = null;
+			var date = null;
+			var date_str = '';
+			var m = 3;
+			for(var i = 0; i < rows.length; (++i)){
+				dates = rows[i].row.data;
+				for(var k = 0; k < dates.length; (++k)){
+					date = dates[k];
+					for(var l = 0; l < scheduled_dates.length; (++l)){
+						date_str = date.attributes.year + '-' + date.attributes.month + '-' + date.attributes.day;
+						/**
+						console.log('scheduled_dates[l] => ' + scheduled_dates[l]);
+						console.log('date.attributes.date => ' + date_str);
+						console.log('match? => ' + date_str.match(scheduled_dates[l]));
+						**/
+						if(date_str.match(scheduled_dates[l])){
+							date.textContainer.data.push(results[l].first_name + ' ' + results[l].last_name);
+							console.log('found a date at: ' + l);
+						} else {
+							//console.log('didnt find a date');
+						}
+					}
+					// pad dates with a minimum of three entries
+					m = (3 - date.textContainer.data.length)
+					while(m >= 0){
+						date.textContainer.data.push('&nbsp;');
+						m--;
+					}
+				}
+			}
+			res.render('calendar', {
+				layout: './authenticated-layout',
+				title: 'CT Schedule',
+				showHeader: false,
+				calendar: req.calendar.data
+			});
+		}
+		res.db.client.end();
 	});
 };
 

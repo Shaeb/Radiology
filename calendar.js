@@ -55,7 +55,11 @@ var Calendar = module.exports = function(createForDate){
 		CALENDAR_STYLE_ROW: 'calendar_row',
 		CALENDAR_STYLE_BOTTOM_ROW: 'calendar_bottom_row',
 		CALENDAR_STYLE_TODAY: 'calendar_today',
-		CALENDAR_STYLE_DATA_CONTAINER: 'calendar-date-data-container'
+		CALENDAR_STYLE_DATA_CONTAINER: 'calendar-date-data-container',
+		BUILD_MONTH: 0,
+		BUILD_WEEK: 1,
+		BUILD_DAY: 2,
+		BUILD_DEFAULT: 0
 	};
 	
 	// data store calendar info
@@ -70,7 +74,22 @@ Calendar.prototype.concatClass = function(stringToConcat, className){
 	return (0 == stringToConcat.length) ? className : stringToConcat + ' ' + className;
 };
 
-Calendar.prototype.build = function(){
+Calendar.prototype.build = function(buildType){
+	switch(buildType){
+		case this.constants.BUILD_WEEK:
+			//this.build_week();
+			break;
+		case this.constants.BUILD_DAY:
+			//this.build_day();
+			break;
+		case this.constants.BUILD_MONTH:
+		default:
+			this.build_month();
+			break;
+	}
+};
+
+Calendar.prototype.build_month = function(){
 	this.data.container = {style: this.constants.CALENDAR_STYLE_CONTAINER};
 	this.data.header = {
 		text: this.month_name + ' ' + this.year,
@@ -95,6 +114,8 @@ Calendar.prototype.build = function(){
 	var displayDate = 0;
 	var dayOfMonthToDisplay = 1;
 	var dateInMonth = false;
+	var display_year = this.year;
+	var display_month = this.month_number + 1;
 	
 	for(var i = 1; i <=  this.numberOfWeeks; (++i)){
 		classToAdd = (i != this.numberOfWeeks) ? this.constants.CALENDAR_STYLE_ROW : 
@@ -117,6 +138,9 @@ Calendar.prototype.build = function(){
 				classToAdd = this.concatClass(classToAdd, this.constants.CALENDAR_STYLE_DATE_NOT_IN_MONTH);
 				displayDate = (this.previousMonth.numberOfDays - (this.daysMissingInFirstWeek - j) + 1); 
 				dateInMonth = false;
+				// for dislay info
+				display_year = ((this.month_number + 1) == 1) ? this.year - 1 : this.year;
+				display_month = (this.year != display_year) ? 12 : this.month_number;
 				/**
 				console.log('this.previousMonth.numberOfDays => ' + this.previousMonth.numberOfDays);
 				console.log('this.daysMissingInFirstWeek => ' + this.daysMissingInFirstWeek);
@@ -136,26 +160,35 @@ Calendar.prototype.build = function(){
 					classToAdd = this.concatClass(classToAdd, this.constants.CALENDAR_STYLE_DATE_IN_MONTH);
 					dayOfMonthToDisplay++;
 					dateInMonth = true;
+					display_year = this.year;
+					display_month = this.month_number + 1;
 				} else {
 					// we are at the end of the month now ...
 					classToAdd = this.concatClass(classToAdd, this.constants.CALENDAR_STYLE_DATE_NOT_IN_MONTH);	
 					displayDate = this.displayDaysForNextMonth;
 					this.displayDaysForNextMonth++;
 					dateInMonth = false;
+					display_month = this.month_number + 2; // +1 for 0-offset and +1 for increment
+					if(display_month > 12) display_month = 1;
+					display_year = (display_month == 1) ? this.year + 1 : this.year;
 				}
 			}
 			rowData.row.data.push({
 				attributes: {
 					style: this.concatClass(classToAdd, this.constants.CALENDAR_STYLE_DATE_ITEM),
-					id: 'date_' + i + '_' + j
-				},
+					id: 'date_' + i + '_' + j,
+					year: display_year,
+					month: ( 10 > display_month ) ? '0' + display_month : display_month,
+					day: ( 10 > displayDate ) ? '0' + displayDate : displayDate
+  				},
 				dateContainer: {
 					style: this.constants.CALENDAR_STYLE_DATE,
 					text: displayDate
 				},
 				textContainer: {
 					style: this.constants.CALENDAR_STYLE_DATA_CONTAINER,
-					data: (dateInMonth) ? [displayDate, displayDate, displayDate] : ['&nbsp;','&nbsp;','&nbsp;']
+					//data: (dateInMonth) ? [displayDate, displayDate, displayDate] : ['&nbsp;','&nbsp;','&nbsp;']
+					data: []
 				}
 			});
 			//console.log(rowData);
