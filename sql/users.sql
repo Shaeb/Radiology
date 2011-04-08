@@ -158,7 +158,7 @@ insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, sta
 insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(4, 1, 'Abdominal Pain', 'CAPc', '2011-04-01 08:00:00', 1);
 
 create view ct_schedule as 	
-select p.id, p.first_name, p.last_name, p.middle_name, p.mrn, p.date_of_birth, a.description as 'area', a.icon, ps.id as 'status_id', ps.description as 'status'
+select p.id, p.first_name, p.last_name, p.middle_name, p.mrn, p.date_of_birth, a.description as 'area', a.icon, ps.id as 'status_id', ps.description as 'status', s.scheduled_time
 from Schedules s, Patients p, Areas a, ProcedureStatus ps
 where s.patient_id = p.id and s.area = a.id and s.status = ps.id;
 
