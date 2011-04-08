@@ -156,6 +156,14 @@ insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, sta
 insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(2, 1, 'Abdominal Pain', 'CAPc', '2011-04-01 08:00:00', 1);
 insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(3, 1, 'Abdominal Pain', 'CAPc', '2011-04-01 08:00:00', 1);
 insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(4, 1, 'Abdominal Pain', 'CAPc', '2011-04-01 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(4, 1, 'Abdominal Pain', 'CAPc', '2011-04-15 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(3, 1, 'Abdominal Pain', 'CAPc', '2011-04-13 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(1, 1, 'Abdominal Pain', 'CAPc', '2011-04-04 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(2, 1, 'Abdominal Pain', 'CAPc', '2011-04-21 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(3, 1, 'Abdominal Pain', 'CAPc', '2011-04-26 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(3, 1, 'Abdominal Pain', 'CAPc', '2011-05-01 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(3, 1, 'Abdominal Pain', 'CAPc', '2011-04-16 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(4, 1, 'Abdominal Pain', 'CAPc', '2011-04-10 08:00:00', 1);
 
 create view ct_schedule as 	
 select p.id, p.first_name, p.last_name, p.middle_name, p.mrn, p.date_of_birth, a.description as 'area', a.icon, ps.id as 'status_id', ps.description as 'status', s.scheduled_time
