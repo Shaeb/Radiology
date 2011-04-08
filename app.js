@@ -62,12 +62,10 @@ app.get('/:area/:action.:format?/:target', setupDB, function(req, res){
 			case 'autosuggest':
 				ct.autosuggest(req, res);
 				break;
-			case 'list':
-				if(req.params.target == 'schedule'){
-					ct.list_schedule(req, res);
-				}
-				break;
 			case 'show':
+				if(req.params.target == 'schedule'){
+					ct.show_schedule(req, res);
+				}
 				if(req.params.target == 'calendar'){
 					req.calendar = new calendar();
 					ct.show_calendar(req, res);

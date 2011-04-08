@@ -28,7 +28,7 @@ exports.view = function(req, res){
 	);
 };
 
-exports.list_schedule = function(req, res){
+exports.show_schedule = function(req, res){
 	res.db.client.connect();
 	res.db.client.query('select * from ct_schedule', function(error, results, fields){
 		if(error || results.length == 0){
