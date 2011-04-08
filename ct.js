@@ -47,6 +47,23 @@ exports.list_schedule = function(req, res){
 	});
 };
 
+exports.show_calendar = function(req, res){
+	/**
+	rows = req.calendar.data.table.body.rows[0];
+	for(var i = 0; i < rows.row.data.length; (++i)){
+		console.log(rows.row.data[i]);
+	}
+	**/
+	req.calendar.build();
+	console.log(req.calendar.data);
+	res.render('calendar', {
+		layout: './authenticated-layout',
+		title: 'CT Schedule',
+		showHeader: false,
+		calendar: req.calendar.data
+	});
+};
+
 exports.autosuggest = function(req, res){
 	query = '';
 	//params = new Array();

@@ -8,6 +8,7 @@ var express = require('express'),
 	user = require('./users'),
 	mongoose = require('mongoose'),
 	form_models = require('./models/forms'),
+	calendar = require('./calendar'),
 	ct_form;
 
 var app = module.exports = express.createServer();
@@ -62,15 +63,22 @@ app.get('/:area/:action.:format?/:target', setupDB, function(req, res){
 				ct.autosuggest(req, res);
 				break;
 			case 'list':
-				if(req.params.target == 'schedule')
+				if(req.params.target == 'schedule'){
 					ct.list_schedule(req, res);
+				}
+				break;
+			case 'show':
+				if(req.params.target == 'calendar'){
+					req.calendar = new calendar();
+					ct.show_calendar(req, res);
+				}
 				break;
 		}
 	}
 });
 
 // ct form
-app.get('/forms/:area/:id?', retrieveNurses, function(req, res){
+app.get('/forms/:area/:id?', function(req, res){
 	switch(req.params.area){
 		case 'ct_form':
 			ct.view(req, res);
@@ -104,17 +112,6 @@ app.error(function(err, req, res){
 
 // custom middleware
 
-function retrieveNurses(req, res, next){
-	var Client = require('mysql').Client,
-		client = new Client();
-	
-	client.user = 'root';
-	client.password = 'felix123';
-	client.database = 'radiology';
-	res.db = { client: client };
-	next();
-}
-
 function setupDB(req, res, next){
 	var Client = require('mysql').Client,
 		client = new Client();
@@ -124,8 +121,9 @@ function setupDB(req, res, next){
 	//client.user = 'root';
 	//client.password = 'georgie';
 	client.database = 'radiology';
-	client.port = '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock';
+	//client.port = '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock';
 	res.db = { client: client };
+
 	next();
 }
 

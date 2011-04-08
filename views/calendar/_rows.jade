@@ -1,0 +1,4 @@
+tr(class=rows.row.style)
+	- each row in rows.row.data
+		td(id=row.attributes.id, class=row.attributes.style)
+			div(class=row.dateContainer.style) #{row.dateContainer.text}

@@ -1,0 +1,9 @@
+#calendar-container(class=calendar.container.style)
+	h1(class=calendar.header.style) #{calendar.header.text}
+	table(class=calendar.table.attributes.style, cellpadding=calendar.table.attributes.cellpadding, cellspacing=calendar.table.attributes.cellspacing)
+		thead
+			tr
+			- each day in calendar.table.header
+				td #{day}
+		tbody
+			!= partial('rows', calendar.table.body.rows)
