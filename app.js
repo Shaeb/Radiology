@@ -121,7 +121,7 @@ function setupDB(req, res, next){
 	//client.user = 'root';
 	//client.password = 'georgie';
 	client.database = 'radiology';
-	//client.port = '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock';
+	client.port = '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock';
 	res.db = { client: client };
 
 	next();

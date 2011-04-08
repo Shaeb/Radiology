@@ -41,7 +41,7 @@ var Calendar = module.exports = function(createForDate){
 	}
 	this.previousMonth.dateObject = new Date(this.previousMonth.year, this.previousMonth.month, 1);
 	this.previousMonth.numberOfDays = this.totalDaysInMonth(this.previousMonth.year, this.previousMonth.month);
-	this.displayDaysForNextMonth = 0;
+	this.displayDaysForNextMonth = 1;
 	
 	this.constants = {
 		CALENDAR_STYLE_CONTAINER: 'calendar_container',
@@ -54,7 +54,8 @@ var Calendar = module.exports = function(createForDate){
 		CALENDAR_STYLE_LAST_COLUMN: 'calendar_last_column',
 		CALENDAR_STYLE_ROW: 'calendar_row',
 		CALENDAR_STYLE_BOTTOM_ROW: 'calendar_bottom_row',
-		CALENDAR_STYLE_TODAY: 'calendar_today'
+		CALENDAR_STYLE_TODAY: 'calendar_today',
+		CALENDAR_STYLE_DATA_CONTAINER: 'calendar-date-data-container'
 	};
 	
 	// data store calendar info
@@ -93,6 +94,7 @@ Calendar.prototype.build = function(){
 	var rowData = {};
 	var displayDate = 0;
 	var dayOfMonthToDisplay = 1;
+	var dateInMonth = false;
 	
 	for(var i = 1; i <=  this.numberOfWeeks; (++i)){
 		classToAdd = (i != this.numberOfWeeks) ? this.constants.CALENDAR_STYLE_ROW : 
@@ -114,6 +116,7 @@ Calendar.prototype.build = function(){
 			if(j < this.daysMissingInFirstWeek && i == 1){
 				classToAdd = this.concatClass(classToAdd, this.constants.CALENDAR_STYLE_DATE_NOT_IN_MONTH);
 				displayDate = (this.previousMonth.numberOfDays - (this.daysMissingInFirstWeek - j) + 1); 
+				dateInMonth = false;
 				/**
 				console.log('this.previousMonth.numberOfDays => ' + this.previousMonth.numberOfDays);
 				console.log('this.daysMissingInFirstWeek => ' + this.daysMissingInFirstWeek);
@@ -132,11 +135,13 @@ Calendar.prototype.build = function(){
 					}
 					classToAdd = this.concatClass(classToAdd, this.constants.CALENDAR_STYLE_DATE_IN_MONTH);
 					dayOfMonthToDisplay++;
+					dateInMonth = true;
 				} else {
 					// we are at the end of the month now ...
 					classToAdd = this.concatClass(classToAdd, this.constants.CALENDAR_STYLE_DATE_NOT_IN_MONTH);	
 					displayDate = this.displayDaysForNextMonth;
 					this.displayDaysForNextMonth++;
+					dateInMonth = false;
 				}
 			}
 			rowData.row.data.push({
@@ -149,8 +154,8 @@ Calendar.prototype.build = function(){
 					text: displayDate
 				},
 				textContainer: {
-					style: '',
-					text: displayDate
+					style: this.constants.CALENDAR_STYLE_DATA_CONTAINER,
+					data: (dateInMonth) ? [displayDate, displayDate, displayDate] : ['&nbsp;','&nbsp;','&nbsp;']
 				}
 			});
 			//console.log(rowData);

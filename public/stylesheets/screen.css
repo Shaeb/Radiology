@@ -160,7 +160,7 @@ table.calendar_table {
 }
 div.calendar_date {
 	background-color: #C3D9FF;
-	position: relative;
+	/*position: relative;*/
 	top: -2em;
 	text-align: right;
 	padding-right: 0.5em;
@@ -176,6 +176,16 @@ div.calendar_date {
 
 .calendar_date_selected {
 	background-color: #F2FFE1;
+}
+
+.calendar-date-data-container {
+	height: 80%;
+}
+
+.calendar-data-list {
+	padding-left: 0.5em;
+	margin-top: 0.5em;
+	text-align: left;
 }
 
 /** end calendar **/
