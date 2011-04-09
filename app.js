@@ -58,20 +58,7 @@ app.get('/message', function( req, res){
 
 app.get('/:area/:action.:format?/:target', setupDB, function(req, res){
 	if(req.params.area == 'ct'){
-		switch(req.params.action){
-			case 'autosuggest':
-				ct.autosuggest(req, res);
-				break;
-			case 'show':
-				if(req.params.target == 'schedule'){
-					ct.show_schedule(req, res);
-				}
-				if(req.params.target == 'calendar'){
-					req.calendar = new calendar();
-					ct.show_calendar(req, res);
-				}
-				break;
-		}
+		ct.dispatch(req.params, req, res);
 	}
 });
 

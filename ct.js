@@ -1,4 +1,26 @@
-var ct = {};
+// coordinator
+exports.dispatch = function(params, req, res){
+	switch(params.action){
+		case 'autosuggest':
+			switch(params.target){
+				case 'patient':
+					exports.autosuggest_patient(req, res);
+					break;
+			}
+			break;
+		case 'show':
+			switch(params.target){
+				case 'schedule':
+					exports.show_schedule(req, res);
+					break;
+				case 'calendar':
+					req.calendar = new calendar();
+					exports.show_calendar(req, res);
+					break;
+			}
+			break;
+	}	
+};
 
 // GETs
 exports.view = function(req, res){
@@ -112,17 +134,17 @@ exports.show_calendar = function(req, res){
 	});
 };
 
-exports.autosuggest = function(req, res){
+exports.autosuggest_patient = function(req, res){
 	query = '';
 	//params = new Array();
 	switch(req.query.target){
 		case 'mrn':
-			query = "select * from ct_schedule where mrn like '" + req.query.term + "%'";
+			query = "select * from patients where mrn like '" + req.query.term + "%'";
 			//params = [req.query.q];
 			break;
 		case 'patient':
 		default:
-			query = "select * from ct_schedule where first_name like '%" + req.query.term + "%' or last_name like'%" + req.query.term + "%'";
+			query = "select * from patients where first_name like '%" + req.query.term + "%' or last_name like'%" + req.query.term + "%'";
 			//params = [req.query.q, req.query.q];
 			break;			
 	}
