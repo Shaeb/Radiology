@@ -1,46 +1,57 @@
 /* the overlayed element */
-.apple_overlay {
-	
-	/* initially overlay is hidden */
-	display:none;
-	
-	/* growing background image */
-	background-image:url('../images/white-overlay.png');
-	
-	/* 
-		width after the growing animation finishes
-		height is automatically calculated
-	*/
-/*	width:640px;		*/
-	
-	/* some padding to layout nested elements nicely  */
-	padding:3em;
-	margin: 3em;
-}
-
-.apple_overlay ul {
+.simple_overlay ul {
 	list-style-type: none;
 	padding: 0;
 }
 
-.apple_overlay li {
+.simple_overlay li {
 	display: inline;
 }
 
-.apple_overlay .black {
-	background-image:url('../images/black-overlay.png');		
-	color:#fff;
+.hidden {
+	display: none;
 }
 
-/* default close button positioned on upper right corner */
-.apple_overlay .close {
+/* the overlayed element */
+.simple_overlay {
+	
+	/* must be initially hidden */
+	display:none;
+	
+	/* place overlay on top of other elements */
+	z-index:10000;
+	
+	/* styling */
+	background-color:#333;
+	
+	width:675px;	
+	min-height:200px;
+	border:1px solid #666;
+	
+	/* CSS3 styling for latest browsers */
+	-moz-box-shadow:0 0 90px 5px #000;
+	-webkit-box-shadow: 0 0 90px #000;	
+}
+
+/* close button positioned on upper right corner */
+.simple_overlay .close {
 	background-image:url('../images/close-overlay.png');
-	position:absolute; right:5px; top:5px;
+	position:absolute;
+	right:-15px;
+	top:-15px;
 	cursor:pointer;
 	height:35px;
 	width:35px;
 }
 
-.hidden {
-	display: none;
+/* styling for elements inside overlay */
+.details {
+	font-size:11px;
+	color:#fff;
+}
+
+.details h3 {
+	color:#aba;
+	font-size:15px;
+	margin:0 0 -10px 0;
 }
