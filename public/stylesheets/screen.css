@@ -1,4 +1,5 @@
 @CHARSET "UTF-8";
+
 html, body {
 	height: 100%;
 }
@@ -45,7 +46,7 @@ ul#navigation {
 #navigation li:hover {
 	cursor: pointer;
 }
-
+	
 div#document-header {
 	border-bottom: 1px dashed #BFBFBF;
 	padding: 0 1em 1em 1em;
@@ -98,6 +99,10 @@ div#document-body {
 	margin-right: auto;
 	border-radius: 5px;
 	padding: 1em;
+}
+
+.subnavigation {
+	display: none;
 }
 
 /* login form */

@@ -88,7 +88,7 @@ exports.show_calendar = function(req, res){
 						**/
 						if(date_str.match(scheduled_dates[l])){
 							date.textContainer.data.push(results[l].first_name + ' ' + results[l].last_name);
-							console.log('found a date at: ' + l);
+							//console.log('found a date at: ' + l);
 						} else {
 							//console.log('didnt find a date');
 						}
