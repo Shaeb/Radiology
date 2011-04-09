@@ -136,6 +136,62 @@ insert into ProcedureStatus(description) values('Scanning');
 insert into ProcedureStatus(description) values('Scan Complete');
 insert into ProcedureStatus(description) values('Discharged');
 
+drop table if exists IVSites;
+
+create table IVSites(
+	id integer not null auto_increment primary key,
+	description varchar(50)
+) engine = InnoDB;
+
+insert into IVSites(description) values('None');
+insert into IVSites(description) values('Right AC');
+insert into IVSites(description) values('Left AC');
+insert into IVSites(description) values('Bilateral AC');
+insert into IVSites(description) values('Right Forearm');
+insert into IVSites(description) values('Left Forearm');
+insert into IVSites(description) values('Right Wrist');
+insert into IVSites(description) values('Left Wrist');
+insert into IVSites(description) values('Right Hand');
+insert into IVSites(description) values('Left Hand');
+
+drop table if exists ProcedureProtocols;
+
+create table ProcedureProtocols(
+	id integer not null auto_increment primary key,
+	description varchar(50),
+	iv_size integer default 20,
+	iv_site_id integer not null,
+	speed integer default 3,
+	foreign key(iv_site_id) references IVSites(id)
+) engine = InnoDB;
+
+insert into ProcedureProtocols(description, iv_site_id) values('CAPc', 2);
+insert into ProcedureProtocols(description, iv_site_id) values('APc', 2);
+insert into ProcedureProtocols(description, iv_site_id) values('Pc', 2);
+insert into ProcedureProtocols(description, iv_site_id) values('Standard Chest', 1);
+insert into ProcedureProtocols(description, iv_site_id) values('GU', 2);
+insert into ProcedureProtocols(description, iv_size, iv_site_id) values('Hepatic Resection', 18, 2);
+insert into ProcedureProtocols(description, iv_size, iv_site_id) values('PE', 18, 2);
+insert into ProcedureProtocols(description, iv_size, iv_site_id) values('Chest Dissection', 18, 2);
+insert into ProcedureProtocols(description, iv_site_id) values('AAA', 2);
+insert into ProcedureProtocols(description, iv_site_id) values('CTA Brain', 2);
+insert into ProcedureProtocols(description, iv_site_id) values('CTA Chest', 2);
+insert into ProcedureProtocols(description, iv_site_id) values('CTA Heart', 2);
+insert into ProcedureProtocols(description, iv_site_id) values('CTA Runoff', 2);
+insert into ProcedureProtocols(description, iv_site_id) values('Neuro c', 2);
+insert into ProcedureProtocols(description, iv_site_id) values('Neuro Neck c', 2);
+insert into ProcedureProtocols(description, iv_site_id) values('Orbits', 2);
+	
+drop table if exists ProcedureDiagnoses;
+
+create table ProcedureDiagnoses(
+	id integer not null auto_increment primary key,
+	description varchar(255)
+) engine = InnoDB;
+
+insert into ProcedureDiagnoses(description) values('Abdominal Pain');
+insert into ProcedureDiagnoses(description) values('Chest Pain Pain');
+
 drop table if exists Schedules;
 
 create table Schedules (
@@ -143,32 +199,35 @@ create table Schedules (
 	patient_id int not null,
 	area integer not null,
 	description varchar(255),
-	diagnosis varchar(255),
-	protocol varchar(255),
+	diagnosis_id integer not null,
+	protocol_id integer not null,
 	scheduled_time datetime,
 	status integer not null,
 	foreign key(patient_id) references Patients(id) on update cascade on delete cascade,
 	foreign key(area) references Areas(id) on update cascade on delete cascade,
+	foreign key(diagnosis_id) references ProcedureDiagnoses(id) on update cascade on delete cascade,
+	foreign key(protocol_id) references ProcedureProtocols(id) on update cascade on delete cascade, 
 	foreign key(status) references ProcedureStatus(id) on update cascade on delete cascade
 ) engine = InnoDB;
 
-insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(1, 1, 'Abdominal Pain', 'CAPc', '2011-04-01 08:00:00', 1);
-insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(2, 1, 'Abdominal Pain', 'CAPc', '2011-04-01 08:00:00', 1);
-insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(3, 1, 'Abdominal Pain', 'CAPc', '2011-04-01 08:00:00', 1);
-insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(4, 1, 'Abdominal Pain', 'CAPc', '2011-04-01 08:00:00', 1);
-insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(4, 1, 'Abdominal Pain', 'CAPc', '2011-04-15 08:00:00', 1);
-insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(3, 1, 'Abdominal Pain', 'CAPc', '2011-04-13 08:00:00', 1);
-insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(1, 1, 'Abdominal Pain', 'CAPc', '2011-04-04 08:00:00', 1);
-insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(2, 1, 'Abdominal Pain', 'CAPc', '2011-04-21 08:00:00', 1);
-insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(3, 1, 'Abdominal Pain', 'CAPc', '2011-04-26 08:00:00', 1);
-insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(3, 1, 'Abdominal Pain', 'CAPc', '2011-05-01 08:00:00', 1);
-insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(3, 1, 'Abdominal Pain', 'CAPc', '2011-04-16 08:00:00', 1);
-insert into Schedules(patient_id, area, diagnosis, protocol, scheduled_time, status) values(4, 1, 'Abdominal Pain', 'CAPc', '2011-04-10 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(1, 1, 1, 1, '2011-04-01 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(2, 1, 1, 2, '2011-04-01 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(3, 1, 1, 3, '2011-04-01 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(4, 1, 1, 4, '2011-04-01 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(4, 1, 1, 5, '2011-04-15 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(3, 1, 1, 6, '2011-04-13 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(1, 1, 1, 7, '2011-04-04 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(2, 1, 1, 8, '2011-04-21 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(3, 1, 1, 9, '2011-04-26 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(3, 1, 1, 1, '2011-05-01 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(3, 1, 1, 1, '2011-04-16 08:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(4, 1, 1, 2, '2011-04-10 08:00:00', 1);
 
 create view ct_schedule as 	
-select p.id, p.first_name, p.last_name, p.middle_name, p.mrn, p.date_of_birth, a.description as 'area', a.icon, ps.id as 'status_id', ps.description as 'status', s.scheduled_time
-from Schedules s, Patients p, Areas a, ProcedureStatus ps
-where s.patient_id = p.id and s.area = a.id and s.status = ps.id;
+select p.id, p.first_name, p.last_name, p.middle_name, p.mrn, p.date_of_birth, a.description as 'area', a.icon, ps.id as 'status_id', 
+	ps.description as 'status', s.scheduled_time, pd.description as 'diagnosis', pp.description as 'protocol'
+from Schedules s, Patients p, Areas a, ProcedureStatus ps, ProcedureDiagnoses pd, ProcedureProtocols pp
+where s.patient_id = p.id and s.area = a.id and s.status = ps.id and s.diagnosis_id = pd.id and s.protocol_id = pp.id;
 
 grant select, insert, update, delete on radiology.* to nodeapp@localhost identified by 'n0d34pp';
 -- ---
