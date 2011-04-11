@@ -1,0 +1,100 @@
+html, body {
+	height: 100%;
+	/**
+	width: 100%;
+	position: absolute;
+	**/
+}
+
+body {
+	margin: 0;
+}
+
+#splitview-list-view, #splitview-detail-view {
+	height: 100%;
+	z-index: 1;
+}
+/** split view **/
+
+#splitview-list-view {
+	float: left;
+	border-right: 1px solid #000;
+	height: 100%;
+	width: 20%;
+	background-color: #9bb2d7;
+}
+
+#splitview-list-container {
+	overflow: auto;
+	height: 100%;
+}
+
+#splitview-list-view ul {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#splitview-list-view li{
+	border-bottom: 1px solid #CFCFCF;
+	height: 3em;
+	/*
+	background: -webkit-gradient(linear, left top, left bottom, from(#E4F3FF), to(#9bb2d7));
+	background: -moz-linear-gradient(top,  #E4F3FF,  #9bb2d7);
+	*/
+	background-color: #EFEFEF;
+}
+
+.round {
+	-webkit-border-radius: 5px; 
+	-moz-border-radius: 5px; 
+	border-radius: 5px;
+}
+
+#list-view-search-container {
+	height: 2em;
+	border-bottom: 1px solid #000;
+}
+
+#list-view-search-container input {
+	margin: 0.5em auto auto 0.5em;
+}
+
+div.list-item-text{
+	margin-left: 1em;
+}
+
+.list-item-title {
+	font-size: 14pt;
+	padding-top: 0.5em;
+	cursor: pointer;
+}
+
+.list-item-description {
+	font-size: 10pt;
+	font-style: italic;
+}
+
+/** end list view **/
+
+/** detail view **/
+
+#splitview-detail-view {
+	overflow: auto;
+}
+
+#detail-view-content {
+	padding-left: 1em;
+	overflow: auto;
+}
+
+#detail-view-content p {
+}
+
+/** end detail view **/
+
+/** helper styles **/
+
+.list-no-decorations{
+	list-style: none;
+}

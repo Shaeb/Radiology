@@ -24,3 +24,8 @@ NVM (node version manager) - https://github.com/creationix/nvm
 
 command line utils:
 are you listening?: netstat -nat|grep LISTEN
+
+javascript:
+jquery
+jquery ui cupertino theme
+jquery toastmessage (https://github.com/akquinet/jquery-toastmessage-plugin/wiki)

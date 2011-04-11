@@ -1,5 +1,11 @@
 $(document).ready(function(){
 	
+	$('.calendar_date_in_month').each(function(index){
+		$(this).bind('dblclick', function(event){
+			$().toastmessage('showNoticeToast','You just clicked an item.');
+		});
+	});
+	
 	$('#ct-patient-autosuggest').autocomplete({
 		minLength: 2,
 		select: function(event, ui){
@@ -21,7 +27,9 @@ $(document).ready(function(){
 	});
 	$('.rip').bind('dblclick', rip);
 	if("a[rel]"){
-		$("a[rel]").overlay({effect: 'apple'});
+		$("a[rel]").overlay({
+			effect: 'apple',
+		});
 		$(".clickable-icons").bind('click', function(){
 			var target = $($(this).attr('rel'));
 			$(".clickable-icons").each(function(index, element){

@@ -1,0 +1,10 @@
+#splitview-list-view
+	#splitview-list-container
+		#list-view-search-container
+			input(type="text", value="Search...").round
+			input(type="button", value="Add", name="splitview-add-btton", id="splitview-add-btton")
+		ul.list-no-decorations
+			!= partial('listItem', listItems)
+#splitview-detail-view
+	#detail-view-content
+		!= partial('detailContentItem', detailContentItems)

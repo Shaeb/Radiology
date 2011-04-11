@@ -145,7 +145,7 @@ table.calendar_table {
 .calendar_row td {
 	border-top: 1px solid #C3D9FF;
 	border-left: 1px solid #C3D9FF;
-	height: 5em;
+	/*height: 5em;*/
 }
 
 .calendar_bottom_row td {
@@ -184,7 +184,8 @@ div.calendar_date {
 }
 
 .calendar-date-data-container {
-	height: 80%;
+	/*height: 80%;*/
+	min-height: 3em;
 }
 
 .calendar-data-list {

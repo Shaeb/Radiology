@@ -1,3 +1,5 @@
+@import url('../stylesheets/jquery.toastmessage.css');
+
 /* the overlayed element */
 .simple_overlay ul {
 	list-style-type: none;
@@ -42,6 +44,11 @@
 	cursor:pointer;
 	height:35px;
 	width:35px;
+}
+
+div.contentWrap {
+	height:441px;
+	overflow-y:auto;
 }
 
 /* styling for elements inside overlay */

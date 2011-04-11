@@ -224,7 +224,7 @@ insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_tim
 insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(4, 1, 1, 2, '2011-04-10 08:00:00', 1);
 
 create view ct_schedule as 	
-select p.id, p.first_name, p.last_name, p.middle_name, p.mrn, p.date_of_birth, a.description as 'area', a.icon, ps.id as 'status_id', 
+select s.id as 'schedule_id', p.id, p.first_name, p.last_name, p.middle_name, p.mrn, p.date_of_birth, a.description as 'area', a.icon, ps.id as 'status_id', 
 	ps.description as 'status', s.scheduled_time, pd.description as 'diagnosis', pp.description as 'protocol'
 from Schedules s, Patients p, Areas a, ProcedureStatus ps, ProcedureDiagnoses pd, ProcedureProtocols pp
 where s.patient_id = p.id and s.area = a.id and s.status = ps.id and s.diagnosis_id = pd.id and s.protocol_id = pp.id;

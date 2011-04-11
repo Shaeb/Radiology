@@ -1,9 +1,12 @@
-tr(class=rows.row.style)
+tr
 	- each row in rows.row.data
 		td(id=row.attributes.id, class=row.attributes.style)
 			div(id=row.attributes.id + '_container').calendar-date-container
 				div(class=row.dateContainer.style) #{row.dateContainer.text}
-				div(id=row.attributes.id + '_data_container', class=row.textContainer.style)
-					ul.list-no-decorations.calendar-data-list
-						-each data in row.textContainer.data
-							li #{data}
+tr(class=rows.row.style)
+	- each row in rows.row.data
+		td(id=row.attributes.id, class=row.attributes.style)
+			div(id=row.attributes.id + '_data_container', class=row.textContainer.style)
+				ul.list-no-decorations.calendar-data-list
+					-each data in row.textContainer.data
+						li #{data}

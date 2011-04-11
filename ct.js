@@ -14,9 +14,16 @@ exports.dispatch = function(params, req, res){
 					exports.show_schedule(req, res);
 					break;
 				case 'calendar':
+					var calendar = require('./calendar');
 					req.calendar = new calendar();
 					exports.show_calendar(req, res);
 					break;
+			}
+			break;
+		case 'new':
+			switch(params.target){
+				case 'schedule':
+					exports.new_schedule(req, res);
 			}
 			break;
 	}	
@@ -24,7 +31,6 @@ exports.dispatch = function(params, req, res){
 
 // GETs
 exports.view = function(req, res){
-	console.log('viewing ct forms');
 	res.db.client.connect();
 
 	res.db.client.query(
@@ -66,6 +72,38 @@ exports.show_schedule = function(req, res){
 			});
 		}
 		res.db.client.end();
+	});
+};
+
+exports.new_schedule = function(req, res){
+	res.db.client.connect();
+	res.db.client.query('select schedule_id, first_name, last_name, diagnosis, protocol from ct_schedule', function( error, results, fields){
+		if(error || results.length == 0){
+			req.flash('error', 'No Patients Scheduled');
+			var flash = req.flash();
+			res.render('./index', {title: 'Error on login', error: true, flash: flash.error});
+			next(error);
+		} else {
+			var listItems = new Array();
+			var detailContentItems = new Array();
+			for(var i = 0; i < results.length; (++i)){
+				listItems.push({
+					id: results[i].schedule_id,
+					title: results[i].first_name + ' ' + results[i].last_name,
+					description: results[i].protocol
+				});
+				detailContentItems.push({
+					id: results[i].schedule_id, 
+					description: 'Patient: ' + results[i].first_name + ' ' + results[i].last_name + '<br/>' + 
+					'Scan Protocol: ' + results[i].protocol + '<br/>Diasnosis: ' + results[i].diagnosis
+				});
+			}
+			res.render('schedule', { 
+				title: 'New Schedule',
+				listItems: listItems,
+				detailContentItems: detailContentItems
+			});
+		}
 	});
 };
 
@@ -116,11 +154,13 @@ exports.show_calendar = function(req, res){
 						}
 					}
 					// pad dates with a minimum of three entries
+					/**
 					m = (3 - date.textContainer.data.length)
 					while(m >= 0){
 						date.textContainer.data.push('&nbsp;');
 						m--;
 					}
+					**/
 				}
 			}
 			res.render('calendar', {
