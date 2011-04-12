@@ -2,21 +2,39 @@
 exports.dispatch = function(params, req, res){
 	switch(params.action){
 		case 'autosuggest':
+			var query = '';
 			switch(params.target){
+				case 'studies':
+					query = 'select id, description as label from ProcedureProtocols';
+					break;
+				case 'diagnoses':
+					query = 'select id, description as label from ProcedureDiagnoses';
+					break;
 				case 'patient':
-					exports.autosuggest_patient(req, res);
+					switch(req.query.filter){
+						case 'mrn':
+							query = "select id, concat(first_name,' ', last_name) as label from patients where mrn like '" + req.query.term + "%'";
+							//params = [req.query.q];
+							break;
+						case 'patient':
+						default:
+							query = "select id, concat(first_name,' ', last_name) as label from patients where first_name like '%" + req.query.term + "%' or last_name like'%" + req.query.term + "%'";
+							//params = [req.query.q, req.query.q];
+						break;			
+					}
 					break;
 			}
+			exports.autosuggest(req, res, query);
 			break;
-		case 'show':
+		case 'view':
 			switch(params.target){
 				case 'schedule':
-					exports.show_schedule(req, res);
+					exports.view_schedule(req, res);
 					break;
 				case 'calendar':
 					var calendar = require('./calendar');
 					req.calendar = new calendar();
-					exports.show_calendar(req, res);
+					exports.view_calendar(req, res);
 					break;
 			}
 			break;
@@ -56,7 +74,7 @@ exports.view = function(req, res){
 	);
 };
 
-exports.show_schedule = function(req, res){
+exports.view_schedule = function(req, res){
 	res.db.client.connect();
 	res.db.client.query('select * from ct_schedule', function(error, results, fields){
 		if(error || results.length == 0){
@@ -68,7 +86,8 @@ exports.show_schedule = function(req, res){
 				layout: './authenticated-layout',
 				title: 'CT Schedule',
 				showHeader: false,
-				patients: results
+				patients: results,
+				javascripts: ['app.page.viewSchedule']
 			});
 		}
 		res.db.client.end();
@@ -101,13 +120,14 @@ exports.new_schedule = function(req, res){
 			res.render('schedule', { 
 				title: 'New Schedule',
 				listItems: listItems,
-				detailContentItems: detailContentItems
+				detailContentItems: detailContentItems,
+				javascripts: ['app.page.newSchedule']
 			});
 		}
 	});
 };
 
-exports.show_calendar = function(req, res){
+exports.view_calendar = function(req, res){
 	/**
 	rows = req.calendar.data.table.body.rows[0];
 	for(var i = 0; i < rows.row.data.length; (++i)){
@@ -167,37 +187,23 @@ exports.show_calendar = function(req, res){
 				layout: './authenticated-layout',
 				title: 'CT Schedule',
 				showHeader: false,
-				calendar: req.calendar.data
+				calendar: req.calendar.data,
+				javascripts: ['app.page.calendar']
 			});
 		}
 		res.db.client.end();
 	});
 };
 
-exports.autosuggest_patient = function(req, res){
-	query = '';
-	//params = new Array();
-	switch(req.query.target){
-		case 'mrn':
-			query = "select * from patients where mrn like '" + req.query.term + "%'";
-			//params = [req.query.q];
-			break;
-		case 'patient':
-		default:
-			query = "select * from patients where first_name like '%" + req.query.term + "%' or last_name like'%" + req.query.term + "%'";
-			//params = [req.query.q, req.query.q];
-			break;			
-	}
-	//console.log('query: ' + query);
-	//console.log('params: ' + params);
+exports.autosuggest = function(req, res, query){
 	res.db.client.connect();
-	res.db.client.query(query, function(error, results, field){
+	res.db.client.query(query, function(error, results, fields){
 		response = new Array();
 		if(error || results.length == 0){
 			response.push( {value: 1, label: 'No results found.'});
 		} else {
 			for(var i = 0; i < results.length; (++i)){
-				response.push({value: results[i].id, label: results[i].first_name + ' ' + results[i].last_name});
+				response.push({value: results[i].id, label: results[i].label});
 			}
 		}
 		res.db.client.end();

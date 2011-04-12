@@ -14,7 +14,7 @@ exports.login = function(req, res) {
 		} else {
 			res.db.client.end();
 			console.log('redirecting');
-			res.redirect('/ct/show/schedule');
+			res.redirect('/ct/view/schedule');
 		}
 	});	
 };

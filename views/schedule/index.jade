@@ -2,9 +2,26 @@
 	#splitview-list-container
 		#list-view-search-container
 			input(type="text", value="Search...").round
-			input(type="button", value="Add", name="splitview-add-btton", id="splitview-add-btton")
+			input(type="button", value="Add", name="splitview-add-btton", id="splitview-add-btton", rel="#add-to-schedule-form")
 		ul.list-no-decorations
 			!= partial('listItem', listItems)
 #splitview-detail-view
 	#detail-view-content
 		!= partial('detailContentItem', detailContentItems)
+	#add-to-schedule-form.hidden.detailItems
+		form(action="/ct/new/schedule", method="POST")
+			h2#ct-patient-autosuggest-box.rip Patient Information
+				#ct-patient-autosuggest-box-rip-dialog.rip-dialog
+					#ct-patient-autosuggest-box-rip-modal.rip-modal
+						input(type="text", rel="/ct/autosuggest.json/patient", name="ct-patient-autosuggest", id="ct-patient-autosuggest").autosuggest-text
+						| &nbsp;
+						select(name="ct-patient-autosuggest-options", id="ct-patient-autosuggest-options").autosuggest-options
+							option(value="name", selected) Search by Name&nbsp;
+							option(value="mrn") Search by MRN
+			h2 Study Information
+			p.clear-left
+				label(for='new_schedule[study]') Study: 
+				input(type='text', name='new_schedule[study]', id='new-schedule-study', rel='/ct/autosuggest.json/studies').autosuggest-text
+			p.clear-left
+				label(for='new_schedule[diagnosis]') Diagnosis: 
+				input(type='text', name='new_schedule[diagnosis]', id='new-schedule-diagnosis', rel='/ct/autosuggest.json/diagnoses').autosuggest-text

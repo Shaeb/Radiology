@@ -1,4 +1,72 @@
 @import url('../stylesheets/jquery.toastmessage.css');
+@import url('/stylesheets/calendar-input.css');
+
+.form-list ul{
+	width: 50%;
+}
+
+.form-list input, label{
+	float: left;
+}
+
+.form-list label {
+	width: 10em;
+}
+
+.form-list input {
+	margin-left: 2em;
+	text-align: right;
+}
+
+.form-list br {
+	clear: left;
+}
+
+.clear-left {
+	clear: left;
+}
+
+.clear-right {
+	clear: right;
+}
+
+.clear-both {
+	clear: both;
+}
+
+.beautify{
+	border:1px solid #ccc;
+	font-size:18px;
+	padding:4px;
+	width:180px;		
+	-moz-box-shadow:0 0 10px #eee inset;	
+}
+
+.rip-dialog {
+	display: none;
+	background-image: url('../images/bg.jpg');	
+	padding: 1em;
+	margin-top: 1em;
+	z-index: 10000;
+}
+
+.rip-modal {
+	background-color: #FFF;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 5px;
+	padding: 1em;
+}
+
+.autosuggest-text {
+	width: 60%;
+	font-size: 18pt;
+}
+
+.autosuggest-options {
+	font-size: 14pt;
+}
 
 /* the overlayed element */
 .simple_overlay ul {

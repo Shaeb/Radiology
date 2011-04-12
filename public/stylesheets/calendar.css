@@ -1,0 +1,60 @@
+/******* Calendar Settings ****/
+table.calendar_table {
+	width: 100%;
+	text-align: center;
+	position: relative;
+}
+
+.calendar_row td {
+	border-top: 1px solid #C3D9FF;
+	border-left: 1px solid #C3D9FF;
+	/*height: 5em;*/
+}
+
+.calendar_bottom_row td {
+	border-bottom: 1px solid #C3D9FF;
+}
+
+.calendar_table tbody td {
+	/*border: 1px solid #C3D9FF;*/
+}
+
+.calendar_date_not_in_month {
+	color: #AFAFAF;
+}
+
+.calendar_last_column {
+	border-right: 1px solid #C3D9FF;
+}
+div.calendar_date {
+	background-color: #C3D9FF;
+	/*position: relative;*/
+	top: -2em;
+	text-align: right;
+	padding-right: 0.5em;
+}
+
+.calendar_today {
+	background-color: #EFEFEF;
+}
+
+.calendar_date_in_month {
+	cursor: pointer;
+}
+
+.calendar_date_selected {
+	background-color: #F2FFE1;
+}
+
+.calendar-date-data-container {
+	/*height: 80%;*/
+	min-height: 3em;
+}
+
+.calendar-data-list {
+	padding-left: 0.5em;
+	margin-top: 0.5em;
+	text-align: left;
+}
+
+/** end calendar **/

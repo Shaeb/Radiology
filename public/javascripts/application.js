@@ -6,6 +6,7 @@ $(document).ready(function(){
 		});
 	});
 	
+	// specifific autocomplete
 	$('#ct-patient-autosuggest').autocomplete({
 		minLength: 2,
 		select: function(event, ui){
@@ -17,7 +18,7 @@ $(document).ready(function(){
 			option = $('#ct-patient-autosuggest-options option:selected').val();
 			lastXHR = $.getJSON(
 				url,
-				{ term: request.term, target: option },
+				{ term: request.term, filter: option },
 				function(data, status, xhr){
 					if( xhr === lastXHR ){
 						response(data);

@@ -21,7 +21,7 @@ body {
 	border-right: 1px solid #000;
 	height: 100%;
 	width: 20%;
-	background-color: #9bb2d7;
+	background-color: #EFEFEF;
 }
 
 #splitview-list-container {
@@ -54,6 +54,7 @@ body {
 #list-view-search-container {
 	height: 2em;
 	border-bottom: 1px solid #000;
+	background-color: #9bb2d7;
 }
 
 #list-view-search-container input {
@@ -81,6 +82,15 @@ div.list-item-text{
 
 #splitview-detail-view {
 	overflow: auto;
+}
+
+#splitview-detail-view label, input {
+	float: left;
+}
+
+#splitview-detail-view label {
+	width: 5em;
+	padding-bottom: 0.5em;
 }
 
 #detail-view-content {
