@@ -12,9 +12,26 @@ $(document).ready(function(){
 			target.show();
 		});
 	}
+	
+	// autosuggest
+	$('.autosuggest-needed').each(function(){
+		var source = $(this).attr('rel');
+		$(this).autocomplete({
+			minLength: 2,
+			select: function(event, ui){
+				this.value = ui.item.label;
+				return false;
+			},
+			source: source
+		});
+	});
 });	
 
 function rip(){
 	//$('#allergy-rip-dialog').toggle('blind');
 	$('#' + $(this).attr('id') + '-rip-dialog').slideToggle('fast');
+}
+
+function hideAll(selector){
+	$(selector).hide();
 }

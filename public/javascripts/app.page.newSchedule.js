@@ -12,14 +12,15 @@ $(document).ready(function(){
 	
 	$(":date").dateinput();
 	
-	// autosuggest
-	$('.autosuggest-text').autocomplete({
+	/**
+	autocomplete({
 		minLength: 2,
 		select: function(event, ui){
 			this.value = ui.item.label;
 			return false;
 		},
 		source: function(request, response){
+			alert($(this).attr('rel'));
 			url = $(this).attr('rel');
 			lastXHR = $.getJSON(
 				url,
@@ -31,8 +32,5 @@ $(document).ready(function(){
 				});
 		}
 	});
+	**/
 });
-
-function hideAll(selector){
-	$(selector).hide();
-}

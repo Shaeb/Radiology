@@ -18,7 +18,7 @@ body {
 
 #splitview-list-view {
 	float: left;
-	border-right: 1px solid #000;
+	border-right: 1px solid #EFEFEF;
 	height: 100%;
 	width: 20%;
 	background-color: #EFEFEF;
@@ -99,6 +99,10 @@ div.list-item-text{
 }
 
 #detail-view-content p {
+}
+
+#add-to-schedule-form {
+	margin: 1em;
 }
 
 /** end detail view **/

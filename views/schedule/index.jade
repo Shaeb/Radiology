@@ -1,3 +1,5 @@
+-scripts.push('app.page.newSchedule.js')
+-styles.push('splitview.css')
 #splitview-list-view
 	#splitview-list-container
 		#list-view-search-container
@@ -10,18 +12,17 @@
 		!= partial('detailContentItem', detailContentItems)
 	#add-to-schedule-form.hidden.detailItems
 		form(action="/ct/new/schedule", method="POST")
-			h2#ct-patient-autosuggest-box.rip Patient Information
-				#ct-patient-autosuggest-box-rip-dialog.rip-dialog
-					#ct-patient-autosuggest-box-rip-modal.rip-modal
-						input(type="text", rel="/ct/autosuggest.json/patient", name="ct-patient-autosuggest", id="ct-patient-autosuggest").autosuggest-text
-						| &nbsp;
-						select(name="ct-patient-autosuggest-options", id="ct-patient-autosuggest-options").autosuggest-options
-							option(value="name", selected) Search by Name&nbsp;
-							option(value="mrn") Search by MRN
-			h2 Study Information
+			h2 Patient Information
+			p.clear-left
+				label(for="new_schedule[patient]") Patient: 
+				input(type="text", rel="/ct/autosuggest.json/patient", name="new_schedule[patient]", id="new-schedule-patient).autosuggest-text.autosuggest-needed.beautify
+			h2.clear-left Study Information
 			p.clear-left
 				label(for='new_schedule[study]') Study: 
-				input(type='text', name='new_schedule[study]', id='new-schedule-study', rel='/ct/autosuggest.json/studies').autosuggest-text
+				input(type='text', name='new_schedule[study]', id='new-schedule-study', rel='/ct/autosuggest.json/studies').autosuggest-text.autosuggest-needed.beautify
 			p.clear-left
 				label(for='new_schedule[diagnosis]') Diagnosis: 
-				input(type='text', name='new_schedule[diagnosis]', id='new-schedule-diagnosis', rel='/ct/autosuggest.json/diagnoses').autosuggest-text
+				input(type='text', name='new_schedule[diagnosis]', id='new-schedule-diagnosis', rel='/ct/autosuggest.json/diagnoses').autosuggest-text.autosuggest-needed.beautify
+			p.clear-left
+				label(for='new_schedule[date]') Date: 
+				input(type='date', name='new_schedule[date]', id='new-schedule-date).beautify

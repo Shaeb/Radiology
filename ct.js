@@ -32,7 +32,7 @@ exports.dispatch = function(params, req, res){
 					exports.view_schedule(req, res);
 					break;
 				case 'calendar':
-					var calendar = require('./calendar');
+					var calendar = require('./models/Calendar.Model');
 					req.calendar = new calendar();
 					exports.view_calendar(req, res);
 					break;
@@ -86,8 +86,7 @@ exports.view_schedule = function(req, res){
 				layout: './authenticated-layout',
 				title: 'CT Schedule',
 				showHeader: false,
-				patients: results,
-				javascripts: ['app.page.viewSchedule']
+				patients: results
 			});
 		}
 		res.db.client.end();
@@ -96,6 +95,21 @@ exports.view_schedule = function(req, res){
 
 exports.new_schedule = function(req, res){
 	res.db.client.connect();
+	var listItems = new Array();
+	var detailContentItems = new Array();
+	
+	// first, need to build out slot options
+	res.db.client.query('select time, slots from areatimeslots where area = 1', function(error, results, fields){
+		if(error || results.length == 0){
+			req.flash('error', 'No Patients Scheduled');
+			var flash = req.flash();
+			res.render('./index', {title: 'Error on login', error: true, flash: flash.error});
+			next(error);
+		} else {
+			
+		}
+	});
+	
 	res.db.client.query('select schedule_id, first_name, last_name, diagnosis, protocol from ct_schedule', function( error, results, fields){
 		if(error || results.length == 0){
 			req.flash('error', 'No Patients Scheduled');
@@ -103,8 +117,6 @@ exports.new_schedule = function(req, res){
 			res.render('./index', {title: 'Error on login', error: true, flash: flash.error});
 			next(error);
 		} else {
-			var listItems = new Array();
-			var detailContentItems = new Array();
 			for(var i = 0; i < results.length; (++i)){
 				listItems.push({
 					id: results[i].schedule_id,
@@ -120,11 +132,11 @@ exports.new_schedule = function(req, res){
 			res.render('schedule', { 
 				title: 'New Schedule',
 				listItems: listItems,
-				detailContentItems: detailContentItems,
-				javascripts: ['app.page.newSchedule']
+				detailContentItems: detailContentItems
 			});
 		}
 	});
+	res.db.client.end();
 };
 
 exports.view_calendar = function(req, res){
@@ -187,8 +199,7 @@ exports.view_calendar = function(req, res){
 				layout: './authenticated-layout',
 				title: 'CT Schedule',
 				showHeader: false,
-				calendar: req.calendar.data,
-				javascripts: ['app.page.calendar']
+				calendar: req.calendar.data
 			});
 		}
 		res.db.client.end();

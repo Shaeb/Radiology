@@ -81,6 +81,56 @@ CREATE TABLE Users (
 
 insert into Users(username, password, group_id) values('soulblast@gmail.com', 'felix', 5);
 	
+drop table if exists AreaConfigurations;
+
+create table AreaConfigurations(
+	id integer not null auto_increment primary key,
+	area integer not null,
+	manager integer not null,
+	opening_time integer not null default 700,
+	closing_time integer not null default 2200,
+	numberOfScanners integer not null,
+	foreign key(area) references Areas(id) on update cascade on delete cascade,
+	foreign key(manager) references Users(id) on update cascade on delete cascade
+) engine = InnoDb;
+
+drop table if exists AreaTimeSlots;
+
+create table AreaTimeSlots(
+	id integer not null auto_increment primary key,
+	area integer not null,
+	time integer not null,
+	slots integer not null,
+	foreign key(area) references Areas(id) on update cascade on delete cascade
+) engine = InnoDb;
+
+insert into AreaTimeSlots(area, time, slots) values(1,700,3);
+insert into AreaTimeSlots(area, time, slots) values(1,730,3);
+insert into AreaTimeSlots(area, time, slots) values(1,800,3);
+insert into AreaTimeSlots(area, time, slots) values(1,830,3);
+insert into AreaTimeSlots(area, time, slots) values(1,900,3);
+insert into AreaTimeSlots(area, time, slots) values(1,930,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1000,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1030,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1100,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1130,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1200,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1230,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1300,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1330,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1400,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1430,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1500,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1530,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1600,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1630,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1700,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1730,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1800,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1830,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1900,3);
+insert into AreaTimeSlots(area, time, slots) values(1,1930,3);
+	
 drop table if exists Patients;
 
 create table Patients(

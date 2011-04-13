@@ -8,7 +8,7 @@ var express = require('express'),
 	user = require('./users'),
 	mongoose = require('mongoose'),
 	form_models = require('./models/forms'),
-	calendar = require('./calendar'),
+	calendar = require('./models/Calendar.Model'),
 	ct_form;
 
 var app = module.exports = express.createServer();
@@ -36,7 +36,15 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
-app.dynamicHelpers({ messages: require('express-messages') });
+app.dynamicHelpers({ messages: require('express-messages'),  
+	scripts: function(req, res){
+		return ['jquery-1.5.1.min.js', 'jquery-ui-1.8.11.custom.min.js', 'jquery.toastmessage.js',
+			'jquery.tools.min.js', 'app.effects.js'];
+	},
+	styles: function(req, res){
+		return ['effects.css', 'jquery-ui-1.8.11.custom.css'];
+	}
+});
 
 // mongodb models
 form_models.defineFormModels(mongoose, function(){
