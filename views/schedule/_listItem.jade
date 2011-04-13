@@ -1,4 +1,10 @@
-li(id='list-item-' + listItem.id, rel='#detail-view-content-item-' + listItem.id).list-items
+li(id='list-item-' + listItem.time, rel='#detail-view-content-item-' + listItem.time).list-items
 	div.list-item-text
-		div.list-item-title #{listItem.title}
-		div.list-item-description !{listItem.description}
+		div.list-item-title Time: #{listItem.time}
+		div.list-item-description Number of Slots: !{listItem.numberOfSlots}
+		div(id='list-item-' + listItem.time + '-procedures').list-item-patient-list.hidden
+			-each procedure in listItem.procedures
+				ul.list-no-decorations
+					li= procedure.patient.first_name + ' ' + procedure.patient.last_name
+					li= 'Protocol: ' + procedure.protocol
+					li= 'Diagnosis: ' + procedure.diagnosis

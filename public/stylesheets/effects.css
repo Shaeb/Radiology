@@ -130,3 +130,67 @@ div.contentWrap {
 	font-size:15px;
 	margin:0 0 -10px 0;
 }
+
+.no-border {
+	border: 0 !important;
+}
+
+.no-bottom-border {
+	border-bottom: 0 !important;
+}
+
+.yes-top-border {
+	border-top: 1px solid #CFCFCF !important;
+}
+
+.width-100{
+	width: 100%;
+}
+
+ul#errors{
+	background-color: #FFFF99;
+	border: 1px dashed #EFEFEF;
+	color: #FF1122;
+	font-weight: bold;
+	list-style: none;
+}
+
+.list-no-decorations {
+	list-style: none;
+}
+
+.list-flat {
+	display: inline;
+}
+
+.rounded-corners {
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.shadow {
+    -moz-box-shadow: 3px 3px 4px #000;
+    -webkit-box-shadow: 3px 3px 4px #000;
+    box-shadow: 3px 3px 4px #000;
+}
+
+.vertical-center {
+	margin: 20% auto !important;
+}
+
+.expose {
+	background-color: #000;
+}
+
+.subtle {
+	display: none;
+}
+
+.no-padding-margin {
+	padding: 0;
+	margin: 0;
+}
+
+.auto-height {
+	height: auto !important;
+}

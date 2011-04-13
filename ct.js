@@ -1,3 +1,7 @@
+var Patient = require('./models/Patient.Model');
+var ScheduleList = require('./models/Schedule.Model');
+var Procedure = require('./models/Procedure.Model');
+
 // coordinator
 exports.dispatch = function(params, req, res){
 	switch(params.action){
@@ -97,6 +101,8 @@ exports.new_schedule = function(req, res){
 	res.db.client.connect();
 	var listItems = new Array();
 	var detailContentItems = new Array();
+	var schedule = null;
+	var procedure = null;
 	
 	// first, need to build out slot options
 	res.db.client.query('select time, slots from areatimeslots where area = 1', function(error, results, fields){
@@ -104,35 +110,48 @@ exports.new_schedule = function(req, res){
 			req.flash('error', 'No Patients Scheduled');
 			var flash = req.flash();
 			res.render('./index', {title: 'Error on login', error: true, flash: flash.error});
+			res.db.client.end();
 			next(error);
 		} else {
-			
-		}
-	});
-	
-	res.db.client.query('select schedule_id, first_name, last_name, diagnosis, protocol from ct_schedule', function( error, results, fields){
-		if(error || results.length == 0){
-			req.flash('error', 'No Patients Scheduled');
-			var flash = req.flash();
-			res.render('./index', {title: 'Error on login', error: true, flash: flash.error});
-			next(error);
-		} else {
-			for(var i = 0; i < results.length; (++i)){
-				listItems.push({
-					id: results[i].schedule_id,
-					title: results[i].first_name + ' ' + results[i].last_name,
-					description: results[i].protocol
-				});
-				detailContentItems.push({
-					id: results[i].schedule_id, 
-					description: 'Patient: ' + results[i].first_name + ' ' + results[i].last_name + '<br/>' + 
-					'Scan Protocol: ' + results[i].protocol + '<br/>Diasnosis: ' + results[i].diagnosis
-				});
-			}
-			res.render('schedule', { 
-				title: 'New Schedule',
-				listItems: listItems,
-				detailContentItems: detailContentItems
+			schedule = new ScheduleList(results);
+			console.log(schedule.schedule);
+			res.db.client.end();
+			res.db.client.connect();
+			res.db.client.query('select schedule_id, scheduled_time, first_name, last_name, diagnosis, protocol from ct_schedule', 
+			  function( error, results, fields){
+				console.log('looking up schedule details');
+				if(error || results.length == 0){
+					req.flash('error', 'No Patients Scheduled');
+					var flash = req.flash();
+					res.render('./index', {title: 'Error on login', error: true, flash: flash.error});
+					next(error);
+				} else {
+					for(var i = 0; i < results.length; (++i)){
+						listItems.push({
+							id: results[i].schedule_id,
+							title: results[i].first_name + ' ' + results[i].last_name,
+							description: results[i].protocol
+						});
+						detailContentItems.push({
+							id: results[i].schedule_id, 
+							description: 'Patient: ' + results[i].first_name + ' ' + results[i].last_name + '<br/>' + 
+							'Scan Protocol: ' + results[i].protocol + '<br/>Diasnosis: ' + results[i].diagnosis
+						});
+						procedure = new Procedure(new Patient());
+						procedure.patient.first_name = results[i].first_name;
+						procedure.patient.last_name = results[i].last_name;
+						procedure.protocol = results[i].protocol;
+						procedure.diagnosis = results[i].diagnosis;
+						procedure.scheduled_time = results[i].scheduled_time;
+						schedule.addProcedureToList(procedure);
+					}
+					res.render('schedule', { 
+						title: 'New Schedule',
+						listItems: listItems,
+						detailContentItems: detailContentItems,
+						schedule: schedule.schedule
+					});
+				}
 			});
 		}
 	});
@@ -146,7 +165,6 @@ exports.view_calendar = function(req, res){
 		console.log(rows.row.data[i]);
 	}
 	**/
-	res.db.client.typeCast = false;
 	res.db.client.connect();
 	res.db.client.query('select * from ct_schedule order by scheduled_time', function(error, results, fields){
 		if(error || 0 == results.length){

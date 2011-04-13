@@ -6,7 +6,7 @@
 			input(type="text", value="Search...").round
 			input(type="button", value="Add", name="splitview-add-btton", id="splitview-add-btton", rel="#add-to-schedule-form")
 		ul.list-no-decorations
-			!= partial('listItem', listItems)
+			!= partial('listItem', schedule)
 #splitview-detail-view
 	#detail-view-content
 		!= partial('detailContentItem', detailContentItems)

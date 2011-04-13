@@ -1,13 +1,23 @@
+var currentlyOpenedMenu = '';
+
 $(document).ready(function(){
-	$('#splitview-add-btton').bind('click', function(event){
+	$('#splitview-add-btton').live('click', function(event){
 		hideAll('.detailItems');
 		$($(this).attr('rel')).show();
 	});
 	
 	// for the splitview schedule
 	$('.list-items').live('click', function(event){
-		hideAll('.detailItems');
-		$($(this).attr('rel')).show();
+		$('.list-item-patient-list').hide();
+		//$($(this).attr('rel')).show();
+		var target = '#' + $(this).attr('id') + '-procedures';
+		if(target != currentlyOpenedMenu && 0 != $(target + ' > ul').size()) {
+			currentlyOpenedMenu = target;
+			$(target).show('blind');
+		} else {
+			$(target).hide('blind');
+			currentlyOpenedMenu = '';
+		}
 	});
 	
 	$(":date").dateinput();

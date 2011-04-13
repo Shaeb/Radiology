@@ -108,7 +108,7 @@ app.error(function(err, req, res){
 function setupDB(req, res, next){
 	var Client = require('mysql').Client,
 		client = new Client();
-	
+	client.typeCast = false;
 	client.user = 'nodeapp';
 	client.password = 'n0d34pp';
 	//client.user = 'root';

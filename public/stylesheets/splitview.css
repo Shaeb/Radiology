@@ -21,7 +21,7 @@ body {
 	border-right: 1px solid #EFEFEF;
 	height: 100%;
 	width: 20%;
-	background-color: #EFEFEF;
+	background-color: #BFBFBF;
 }
 
 #splitview-list-container {
@@ -37,7 +37,7 @@ body {
 
 #splitview-list-view li{
 	border-bottom: 1px solid #CFCFCF;
-	height: 3em;
+	/*min-height: 3em;*/
 	/*
 	background: -webkit-gradient(linear, left top, left bottom, from(#E4F3FF), to(#9bb2d7));
 	background: -moz-linear-gradient(top,  #E4F3FF,  #9bb2d7);
@@ -62,18 +62,36 @@ body {
 }
 
 div.list-item-text{
-	margin-left: 1em;
 }
 
 .list-item-title {
+	margin-left: 0.5em;
 	font-size: 14pt;
 	padding-top: 0.5em;
 	cursor: pointer;
 }
 
 .list-item-description {
+	margin-left: 0.5em;
 	font-size: 10pt;
 	font-style: italic;
+}
+
+div.list-item-patient-list{
+	background-color: #BFBFBF;
+	border-top: 1px solid #CFCFCF;
+}
+
+.list-item-patient-list ul{
+	padding-top: 0.5em !important;
+	padding-bottom: 0.5em !important;
+	border-top: 1px solid #CFCFCF;
+}
+
+.list-item-patient-list li{
+	background-color: #BFBFBF !important;
+	padding-left: 1em;
+	border: 0 !important;
 }
 
 /** end list view **/
@@ -103,12 +121,4 @@ div.list-item-text{
 
 #add-to-schedule-form {
 	margin: 1em;
-}
-
-/** end detail view **/
-
-/** helper styles **/
-
-.list-no-decorations{
-	list-style: none;
 }

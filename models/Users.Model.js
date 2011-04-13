@@ -1,6 +1,5 @@
 var User = module.exports = function()  {
 	this.id = null;
-	this.mrn = null;
 	this.username = null;
 	this.password = null;
 	this.authorized = null;
