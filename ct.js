@@ -164,16 +164,6 @@ exports.new_schedule = function(req, res){
 					next(error);
 				} else {
 					for(var i = 0; i < results.length; (++i)){
-						listItems.push({
-							id: results[i].schedule_id,
-							title: results[i].first_name + ' ' + results[i].last_name,
-							description: results[i].protocol
-						});
-						detailContentItems.push({
-							id: results[i].schedule_id, 
-							description: 'Patient: ' + results[i].first_name + ' ' + results[i].last_name + '<br/>' + 
-							'Scan Protocol: ' + results[i].protocol + '<br/>Diasnosis: ' + results[i].diagnosis
-						});
 						procedure = new Procedure(new Patient());
 						procedure.schedule_id = results[i].schedule_id;
 						procedure.patient.first_name = results[i].first_name;

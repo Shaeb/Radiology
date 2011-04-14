@@ -36,6 +36,9 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
+app.helpers({
+});
+
 app.dynamicHelpers({ messages: require('express-messages'),  
 	scripts: function(req, res){
 		return ['jquery-1.5.1.min.js', 'jquery-ui-1.8.11.custom.min.js', 'jquery.toastmessage.js',

@@ -1,10 +1,16 @@
+-var amt = (listItem.numberOfSlots - listItem.procedures.length)
 li(id='list-item-' + listItem.time, rel='#detail-view-content-item-' + listItem.time).list-items
 	div.list-item-text
 		div.list-item-title Time: #{listItem.time}
-		div.list-item-description Number of Slots: !{listItem.numberOfSlots}
+		div.list-item-description Number of Remaining Slots: !{amt}
 		div(id='list-item-' + listItem.time + '-collapsible').list-item-patient-list.hidden
 			-each procedure in listItem.procedures
 				ul(rel='/ct/view.html/form/' + procedure.schedule_id).list-no-decorations.list-item-procedure
 					li= procedure.patient.first_name + ' ' + procedure.patient.last_name
 					li= 'Protocol: ' + procedure.protocol
 					li= 'Diagnosis: ' + procedure.diagnosis
+			- var temp = []
+			- temp.length = amt
+			- each item in temp
+				ul.list-no-decorations.list-item-procedure.click-to-add-procedure
+					li Click to add a patient
