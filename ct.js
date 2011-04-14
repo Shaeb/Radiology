@@ -56,13 +56,45 @@ exports.dispatch = function(params, req, res){
 
 // GETs
 exports.view_form = function(req, res){
-	console.log('viewing');
-	res.render('forms', {
-		layout: (req.query.minified) ? './minilayout' : './authenticated-layout.jade',
-		title: 'CT Triage Form',
-		showHeader: true,
-		allergies: 'Magnesium, Potassium, Sodium, Oxygen, Kidneys'
-	});
+	res.db.client.connect();
+	var query = 'select s.first_name, s.last_name, s.date_of_birth, s.mrn, a.description as allergen from ct_schedule s, allergies als, allergens a where s.schedule_id = ? and s.patient_id = als.patient_id and a.id = als.allergen_id';
+	res.db.client.query(query, [req.params.id], function(error, results, fields){
+			console.log(res.db.client.format(query, [req.params.id]));
+			if(error || results.length == 0){
+				req.flash('error', 'No Patients Scheduled');
+				var flash = req.flash();
+				res.render('./index', {title: 'Error: No Patients Scheduled', error: true, flash: flash.error});
+			} else {
+				var first_name = results[0].first_name;
+				var last_name = results[0].last_name;
+				var dob = results[0].date_of_birth;
+				var mrn = results[0].mrn;
+				var allergies = new Array();
+				for(var i = 0; i < results.length;  i++){
+					/**
+					allergies.push({
+						allergen: results[i].allergen,
+						reaction: results[i].reaction
+					});
+					**/
+					allergies.push(results[i].allergen);
+				}
+				res.render('forms', {
+					layout: (req.query.minified) ? './minilayout' : './authenticated-layout.jade',
+					title: 'CT Triage Form',
+					showHeader: true,
+					patient: {
+						first_name: first_name,
+						last_name: last_name,
+						date_of_birth: dob,
+						mrn: mrn,
+						allergies: allergies
+					}
+				});
+			}
+		});
+	
+	res.db.client.end();
 };
 
 exports.view_schedule = function(req, res){

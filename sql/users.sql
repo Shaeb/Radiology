@@ -159,16 +159,34 @@ create table LabValues(
 	foreign key(patient_id) references Patients(id) on update cascade on delete cascade
 ) engine = InnoDB;
 
+drop table if exists Allergens;
+
+create table Allergens(
+	id integer not null auto_increment primary key,
+	description varchar(100)
+) engine = InnoDB;
+
+insert into Allergens(description) values('NKDA');
+insert into Allergens(description) values('Sudafed');
+insert into Allergens(description) values('Multivitamins');
+
 drop table if exists Allergies;
 
 create table Allergies(
 	id integer not null auto_increment primary key,
 	patient_id integer not null,
-	allergen varchar(50) not null,
+	allergen_id integer not null,
 	reaction varchar(50) default 'undefined',
-	foreign key(patient_id) references Patients(id) on update cascade on delete cascade
+	foreign key(patient_id) references Patients(id) on update cascade on delete cascade,
+	foreign key(allergen_id) references Allergens(id) on update cascade on delete cascade
 ) engine = InnoDB;
 
+insert into allergies(patient_id, allergen_id, reaction) values(1, 2, 'seizures');
+insert into allergies(patient_id, allergen_id, reaction) values(1, 3, 'severe insomnia');
+insert into allergies(patient_id, allergen_id, reaction) values(2, 1, '');	
+
+select s.first_name, s.last_name, s.date_of_birth, s.mrn, a.description as allergern from ct_schedule right join allergies als, allergens a on s.schedule_id = 3 and s.patient_id = als.patient_id and a.id = als.allergen_id
+	
 drop table if exists ProcedureStatus;
 
 create table ProcedureStatus(

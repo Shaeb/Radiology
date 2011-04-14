@@ -5,9 +5,9 @@
       #document-header
         h2 CT Nursing Contrast Sheet
         ul.float-right
-          li LastName, FirstName
-          li DOB - Age
-          li MR# AB0000
+          li #{patient.last_name}, #{patient.first_name}
+          li #{patient.date_of_birth}
+          li MR# #{patient.mrn}
          br.clear-left
       #document-body
         != body

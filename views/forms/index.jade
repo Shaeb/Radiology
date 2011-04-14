@@ -1,6 +1,6 @@
 form(method="post", name="form-ct", id="form-ct", action="/forms/ct_form/process")
   #allergy-box.shadow.rip
-    h3 Allergies: #{allergies}
+    h3 Allergies: #{patient.allergies.join(', ')}
   #allergy-box-rip-dialog.rip-dialog
     #allergy-box-rip-modal.rip-modal
       | Allergen: 
@@ -9,7 +9,7 @@ form(method="post", name="form-ct", id="form-ct", action="/forms/ct_form/process
       input(type="text", name="allergy[reaction]")
       input(type="button", value="Save Allergy")
   h3 Triage:
-  span <input type="hidden" name="triage[allergies]" value="#{allergies}"/>
+  span <input type="hidden" name="triage[allergies]" value="#{patient.allergies.join(',')}"/>
   input(type="hidden", name="patient[first_name]", value="Nathan")
   input(type="hidden", name="patient[last_name]", value="Bardgett")
   input(type="hidden", name="patient[date_of_birth]", value="05/29/1981")
