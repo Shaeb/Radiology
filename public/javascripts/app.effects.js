@@ -1,3 +1,5 @@
+var currentlyOpenedMenu = '';
+
 $(document).ready(function(){	
 	$('.rip').bind('dblclick', rip);
 	if("a[rel]"){
@@ -24,6 +26,17 @@ $(document).ready(function(){
 			},
 			source: source
 		});
+	});
+	
+	$('.list-items').live('click', function(event){
+		$(currentlyOpenedMenu).hide('blind');
+		var target = '#' + $(this).attr('id') + '-collapsible';
+		if(target != currentlyOpenedMenu && 0 != $(target + ' > ul').size()) {
+			currentlyOpenedMenu = target;
+			$(target).show('blind');
+		} else {
+			currentlyOpenedMenu = '';
+		}
 	});
 });	
 

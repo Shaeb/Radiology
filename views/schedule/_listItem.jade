@@ -2,7 +2,7 @@ li(id='list-item-' + listItem.time, rel='#detail-view-content-item-' + listItem.
 	div.list-item-text
 		div.list-item-title Time: #{listItem.time}
 		div.list-item-description Number of Slots: !{listItem.numberOfSlots}
-		div(id='list-item-' + listItem.time + '-procedures').list-item-patient-list.hidden
+		div(id='list-item-' + listItem.time + '-collapsible').list-item-patient-list.hidden
 			-each procedure in listItem.procedures
 				ul.list-no-decorations
 					li= procedure.patient.first_name + ' ' + procedure.patient.last_name
