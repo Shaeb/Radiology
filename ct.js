@@ -41,11 +41,7 @@ exports.dispatch = function(params, req, res){
 					exports.view_calendar(req, res);
 					break;
 				case 'form':
-					if(req.query.minified){
-						exports.view_mini_form(req, res);
-					} else {
-						exports.view_form(req, res);
-					}
+					exports.view_form(req, res);
 					break;
 			}
 			break;
@@ -59,18 +55,10 @@ exports.dispatch = function(params, req, res){
 };
 
 // GETs
-exports.view_mini_form = function(req, res){
-	res.render('forms', {
-		layout: './minilayout',
-		allergies: 'Magnesium, Potassium, Sodium, Oxygen, Kidneys',
-		javascripts: ['jquery-1.5.1.min.js', 'jquery-ui-1.8.11.custom.min.js', 'jquery.toastmessage.js']
-	});
-};
-
 exports.view_form = function(req, res){
 	console.log('viewing');
 	res.render('forms', {
-		layout: './authenticated-layout.jade',
+		layout: (req.query.minified) ? './minilayout' : './authenticated-layout.jade',
 		title: 'CT Triage Form',
 		showHeader: true,
 		allergies: 'Magnesium, Potassium, Sodium, Oxygen, Kidneys'
