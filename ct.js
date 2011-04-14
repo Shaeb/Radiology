@@ -57,44 +57,64 @@ exports.dispatch = function(params, req, res){
 // GETs
 exports.view_form = function(req, res){
 	res.db.client.connect();
-	var query = 'select s.first_name, s.last_name, s.date_of_birth, s.mrn, a.description as allergen from ct_schedule s, allergies als, allergens a where s.schedule_id = ? and s.patient_id = als.patient_id and a.id = als.allergen_id';
-	res.db.client.query(query, [req.params.id], function(error, results, fields){
-			console.log(res.db.client.format(query, [req.params.id]));
-			if(error || results.length == 0){
-				req.flash('error', 'No Patients Scheduled');
-				var flash = req.flash();
-				res.render('./index', {title: 'Error: No Patients Scheduled', error: true, flash: flash.error});
-			} else {
-				var first_name = results[0].first_name;
-				var last_name = results[0].last_name;
-				var dob = results[0].date_of_birth;
-				var mrn = results[0].mrn;
-				var allergies = new Array();
-				for(var i = 0; i < results.length;  i++){
-					/**
-					allergies.push({
-						allergen: results[i].allergen,
-						reaction: results[i].reaction
-					});
-					**/
-					allergies.push(results[i].allergen);
+	var procedure = new Procedure(new Patient());
+	// first, get patient
+	res.db.client.query('select patient_id, first_name, last_name, date_of_birth, mrn from ct_schedule where schedule_id = ?',
+		 [req.params.id], function(error, results, fields){
+		if(error || results.length == 0){
+			req.flash('error', 'No Patients Scheduled');
+			var flash = req.flash();
+			res.render('./index', {title: 'Error: No Patients Scheduled', error: true, flash: flash.error});
+			res.db.client.end();
+		} else {
+			procedure.patient.id = results[0].patient_id;
+			procedure.patient.first_name = results[0].first_name;
+			procedure.patient.last_name = results[0].last_name;
+			procedure.patient.date_of_birth = results[0].date_of_birth;
+			procedure.patient.mrn = results[0].mrn;
+			procedure.schedule_id = req.params.id;
+			
+			//res.db.client.end();
+			res.db.client.query('select a.description as allergen from allergies als, allergens a where als.patient_id = ? and a.id = als.allergen_id',
+				[procedure.patient.id], function(error, results, fields){
+				//console.log(res.db.client.format(query, [req.params.id]));
+				if(error){
+					res.db.client.end();
+					req.flash('error', 'No Patients Scheduled');
+					var flash = req.flash();
+					res.render('./index', {title: 'Error: No Patients Scheduled', error: true, flash: flash.error});
+				} else {
+					var allergies = new Array();
+					if(results.length != 0){
+						for(var i = 0; i < results.length;  i++){
+								/**
+								allergies.push({
+									allergen: results[i].allergen,
+									reaction: results[i].reaction
+								});
+								**/
+							allergies.push(results[i].allergen);
+						}
+					} else {
+						allergies.push('No Allergy Data Defined');
+					}
+					res.db.client.end();
 				}
 				res.render('forms', {
 					layout: (req.query.minified) ? './minilayout' : './authenticated-layout.jade',
 					title: 'CT Triage Form',
 					showHeader: true,
 					patient: {
-						first_name: first_name,
-						last_name: last_name,
-						date_of_birth: dob,
-						mrn: mrn,
+						first_name: procedure.patient.first_name,
+						last_name: procedure.patient.last_name,
+						date_of_birth: procedure.patient.date_of_birth,
+						mrn: procedure.patient.mrn,
 						allergies: allergies
 					}
 				});
-			}
-		});
-	
-	res.db.client.end();
+			});
+		}
+	});
 };
 
 exports.view_schedule = function(req, res){
@@ -133,8 +153,8 @@ exports.new_schedule = function(req, res){
 			next(error);
 		} else {
 			schedule = new ScheduleList(results);
-			res.db.client.end();
-			res.db.client.connect();
+			//res.db.client.end();
+			//res.db.client.connect();
 			res.db.client.query('select schedule_id, scheduled_time, first_name, last_name, diagnosis, protocol from ct_schedule', 
 			  function( error, results, fields){
 				if(error || results.length == 0){
@@ -163,17 +183,15 @@ exports.new_schedule = function(req, res){
 						procedure.scheduled_time = results[i].scheduled_time;
 						schedule.addProcedureToList(procedure);
 					}
+					res.db.client.end();
 					res.render('schedule', { 
 						title: 'New Schedule',
-						listItems: listItems,
-						detailContentItems: detailContentItems,
 						schedule: schedule.schedule
 					});
 				}
 			});
 		}
 	});
-	res.db.client.end();
 };
 
 exports.view_calendar = function(req, res){

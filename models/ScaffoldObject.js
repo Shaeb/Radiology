@@ -1,5 +1,4 @@
 var ScaffoldObject = module.exports = function(){
-	
 };
 
 ScaffoldObject.prototype.create = function(){
