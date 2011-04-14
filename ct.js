@@ -114,12 +114,10 @@ exports.new_schedule = function(req, res){
 			next(error);
 		} else {
 			schedule = new ScheduleList(results);
-			console.log(schedule.schedule);
 			res.db.client.end();
 			res.db.client.connect();
 			res.db.client.query('select schedule_id, scheduled_time, first_name, last_name, diagnosis, protocol from ct_schedule', 
 			  function( error, results, fields){
-				console.log('looking up schedule details');
 				if(error || results.length == 0){
 					req.flash('error', 'No Patients Scheduled');
 					var flash = req.flash();
