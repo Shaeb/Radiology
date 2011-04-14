@@ -40,6 +40,13 @@ exports.dispatch = function(params, req, res){
 					req.calendar = new calendar();
 					exports.view_calendar(req, res);
 					break;
+				case 'form':
+					if(req.query.minified){
+						exports.view_mini_form(req, res);
+					} else {
+						exports.view_form(req, res);
+					}
+					break;
 			}
 			break;
 		case 'new':
@@ -52,30 +59,22 @@ exports.dispatch = function(params, req, res){
 };
 
 // GETs
-exports.view = function(req, res){
-	res.db.client.connect();
+exports.view_mini_form = function(req, res){
+	res.render('forms', {
+		layout: './minilayout',
+		allergies: 'Magnesium, Potassium, Sodium, Oxygen, Kidneys',
+		javascripts: ['jquery-1.5.1.min.js', 'jquery-ui-1.8.11.custom.min.js', 'jquery.toastmessage.js']
+	});
+};
 
-	res.db.client.query(
-	  'select * from ct_schedule',
-	  function selectCb(err, results, fields) {
-	    if (err || results.length === null) {
-	      throw err;
-	    }
-		//console.log(results.length);
-		//res.render('forms/ct', {
-		res.render('forms', {
-			layout: './authenticated-layout.jade',
-			title: 'CT Triage Form',
-			showHeader: true,
-			allergies: 'Magnesium, Potassium, Sodium, Oxygen, Kidneys',
-			results: results
-		});
-
-	    //console.log(results);
-	    // console.log(fields);
-	    res.db.client.end();
-	  }
-	);
+exports.view_form = function(req, res){
+	console.log('viewing');
+	res.render('forms', {
+		layout: './authenticated-layout.jade',
+		title: 'CT Triage Form',
+		showHeader: true,
+		allergies: 'Magnesium, Potassium, Sodium, Oxygen, Kidneys'
+	});
 };
 
 exports.view_schedule = function(req, res){
@@ -136,6 +135,7 @@ exports.new_schedule = function(req, res){
 							'Scan Protocol: ' + results[i].protocol + '<br/>Diasnosis: ' + results[i].diagnosis
 						});
 						procedure = new Procedure(new Patient());
+						procedure.schedule_id = results[i].schedule_id;
 						procedure.patient.first_name = results[i].first_name;
 						procedure.patient.last_name = results[i].last_name;
 						procedure.protocol = results[i].protocol;

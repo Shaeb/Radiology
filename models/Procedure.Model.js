@@ -2,6 +2,7 @@ var scaffold = require('../models/ScaffoldObject');
 var patient = require('../models/Patient.Model');
 
 var Procedure = module.exports = function(patient){
+	this.schedule_id = null;
 	this.patient = null;
 	this.scheduled_time = null;
 	this.diagnosis = null;

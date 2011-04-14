@@ -64,7 +64,7 @@ app.get('/message', function( req, res){
 	});
 });
 
-app.get('/:area/:action.:format?/:target', setupDB, function(req, res){
+app.get('/:area/:action.:format?/:target/:id?', setupDB, function(req, res){
 	if(req.params.area == 'ct'){
 		ct.dispatch(req.params, req, res);
 	}

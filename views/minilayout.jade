@@ -1,0 +1,13 @@
+-styles.push('screen.css')
+    -each style in styles
+      link(rel='stylesheet', href='/stylesheets/' + style)
+    #document-container.shadow
+      #document-header
+        h2 CT Nursing Contrast Sheet
+        ul.float-right
+          li LastName, FirstName
+          li DOB - Age
+          li MR# AB0000
+         br.clear-left
+      #document-body
+        != body

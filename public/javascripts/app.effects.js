@@ -1,12 +1,12 @@
 var currentlyOpenedMenu = '';
 
 $(document).ready(function(){	
-	$('.rip').bind('dblclick', rip);
+	$('.rip').live('dblclick', rip);
 	if("a[rel]"){
 		$("a[rel]").overlay({
 			effect: 'apple',
 		});
-		$(".clickable-icons").bind('click', function(){
+		$(".clickable-icons").live('click', function(){
 			var target = $($(this).attr('rel'));
 			$(".clickable-icons").each(function(index, element){
 				$($(this).attr('rel')).hide();

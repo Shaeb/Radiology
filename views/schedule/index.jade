@@ -9,7 +9,7 @@
 			!= partial('listItem', schedule)
 #splitview-detail-view
 	#detail-view-content
-		!= partial('detailContentItem', detailContentItems)
+		p#detail-view-content-container
 	#add-to-schedule-form.hidden.detailItems
 		form(action="/ct/new/schedule", method="POST")
 			h2 Patient Information

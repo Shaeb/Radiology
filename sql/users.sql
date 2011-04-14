@@ -260,6 +260,8 @@ create table Schedules (
 	foreign key(status) references ProcedureStatus(id) on update cascade on delete cascade
 ) engine = InnoDB;
 
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(1, 1, 1, 1, '2011-04-01 07:00:00', 1);
+insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(2, 1, 1, 2, '2011-04-01 07:30:00', 1);
 insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(1, 1, 1, 1, '2011-04-01 08:00:00', 1);
 insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(2, 1, 1, 2, '2011-04-01 08:00:00', 1);
 insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(3, 1, 1, 3, '2011-04-01 08:00:00', 1);

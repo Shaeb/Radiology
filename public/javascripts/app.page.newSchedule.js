@@ -5,8 +5,17 @@ $(document).ready(function(){
 	});
 	
 	// for the splitview schedule
-	$('.list-item-patient-list').live('click', function(event){
-		alert('clicked me');
+	$('.list-item-procedure').live('click', function(event){
+		var target = $(this).attr('rel');
+		$.ajax({
+			url: target,
+			data: {minified: true},
+			context: '#detail-view-content-container',
+			success: function(data, textStatus, jqXHR){
+				$('#detail-view-content-container').html(data);
+				$('#detail-view-content-container').show();
+			}
+		});
 		return false;
 	});
 	
