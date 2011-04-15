@@ -53,13 +53,16 @@ exports.dispatch = function(params, req, res){
 						break;
 					case 'form':
 						exports.view_form(req, res);
-					break;
+						break;
+					default:
+						exports.view_index(req, res);
+						break;
 				}
 				break;
-			case 'new':
+			case 'edit':
 				switch(params.target){
 					case 'schedule':
-						exports.new_schedule(req, res);
+						exports.edit_schedule(req, res);
 						break;
 				}
 			break;
@@ -68,6 +71,14 @@ exports.dispatch = function(params, req, res){
 };
 
 // GETs
+exports.view_index = function(req, res){
+	res.render('ct', {
+		layout: './authenticated-layout.jade',
+		title: 'CT Triage Form',
+		showHeader: false
+	});
+};
+
 exports.view_form = function(req, res){
 	res.db.client.connect();
 	var procedure = new Procedure(new Patient());
@@ -149,7 +160,7 @@ exports.view_schedule = function(req, res){
 	});
 };
 
-exports.new_schedule = function(req, res){
+exports.edit_schedule = function(req, res){
 	res.db.client.connect();
 	var listItems = new Array();
 	var detailContentItems = new Array();
