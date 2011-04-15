@@ -48,7 +48,8 @@ div.calendar_date {
 
 .calendar-date-data-container {
 	/*height: 80%;*/
-	min-height: 3em;
+	height: 5em;
+	overflow: auto;
 }
 
 .calendar-data-list {
