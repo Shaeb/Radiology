@@ -42,7 +42,7 @@ app.helpers({
 app.dynamicHelpers({ messages: require('express-messages'),  
 	scripts: function(req, res){
 		return ['jquery-1.5.1.min.js', 'jquery-ui-1.8.11.custom.min.js', 'jquery.toastmessage.js',
-			'jquery.tools.min.js', 'app.effects.js'];
+			'jquery.tools.min.js', 'app.effects.js', 'app.models.js'];
 	},
 	styles: function(req, res){
 		return ['effects.css', 'jquery-ui-1.8.11.custom.css'];
@@ -68,6 +68,12 @@ app.get('/message', function( req, res){
 });
 
 app.get('/:area/:action.:format?/:target/:id?', setupDB, function(req, res){
+	if(req.params.area == 'ct'){
+		ct.dispatch(req.params, req, res);
+	}
+});
+
+app.get('/:area/:action.:format?/:target/:year?/:month?/:day?', setupDB, function(req, res){
 	if(req.params.area == 'ct'){
 		ct.dispatch(req.params, req, res);
 	}

@@ -13,33 +13,52 @@ $(document).ready(function(){
 			context: '#detail-view-content-container',
 			success: function(data, textStatus, jqXHR){
 				$('#detail-view-content-container').html(data);
-				$('#detail-view-content-container').show();
+				$('#detail-view-content-container').show('blind');
+				$('#add-to-schedule-form:visible').hide('blind');
 			}
 		});
 		return false;
 	});
 	
+	$('.click-to-add-procedure').live('click', function(event){
+		$('#detail-view-content-container:visible').hide('blind');
+		var time = $(this).attr('rel');
+		$('#new-schedule-time').val(time);
+		$('#add-to-schedule-form:hidden').show('blind');
+		return false;
+	});
+	
 	$(":date").dateinput();
 	
-	/**
-	autocomplete({
-		minLength: 2,
-		select: function(event, ui){
-			this.value = ui.item.label;
-			return false;
-		},
-		source: function(request, response){
-			alert($(this).attr('rel'));
-			url = $(this).attr('rel');
-			lastXHR = $.getJSON(
-				url,
-				{ term: request.term },
-				function(data, status, xhr){
-					if( xhr === lastXHR ){
-						response(data);
-					}
-				});
+	$('.smart-autosuggest-needed').each(
+		function(){
+			var url = $(this).attr('rel');
+			var target = $(this).attr('target');
+			$(this).autocomplete({
+				minLength: 2,
+				select: function(event, ui){
+					$(target).val(ui.item.value);
+					this.value = ui.item.label;
+					return false;
+				},
+				source: function(request, response){
+					lastXHR = $.getJSON(
+						url,
+						{ term: request.term },
+						function(data, status, xhr){
+							if( xhr === lastXHR ){
+								response(data);
+							}
+						});
+				}
+			});
 		}
+	);
+	
+	// submit the form
+	$('#new-schedule-form').bind('submit', function(event){
+		$().toastmessage('showNoticeToast','Attempting to schedule procedure.');
+		$('#new-schedule-submit').attr('disabled', 'disabled');
+		return false;
 	});
-	**/
 });

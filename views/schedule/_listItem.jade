@@ -2,7 +2,8 @@
 li(id='list-item-' + listItem.time, rel='#detail-view-content-item-' + listItem.time).list-items
 	div.list-item-text
 		div.list-item-title Time: #{listItem.time}
-		div.list-item-description Number of Remaining Slots: !{amt}
+		div.list-item-description Number of Remaining Slots: 
+			span(id='list-item-description-amt-' + listItem.time)!{amt}
 		div(id='list-item-' + listItem.time + '-collapsible').list-item-patient-list.hidden
 			-each procedure in listItem.procedures
 				ul(rel='/ct/view.html/form/' + procedure.schedule_id).list-no-decorations.list-item-procedure
@@ -12,5 +13,5 @@ li(id='list-item-' + listItem.time, rel='#detail-view-content-item-' + listItem.
 			- var temp = []
 			- temp.length = amt
 			- each item in temp
-				ul.list-no-decorations.list-item-procedure.click-to-add-procedure
-					li Click to add a patient
+				ul.list-no-decorations.list-item-procedure
+					li(rel=listItem.time).click-to-add-procedure Click to add a patient

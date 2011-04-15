@@ -155,13 +155,16 @@ exports.new_schedule = function(req, res){
 			schedule = new ScheduleList(results);
 			//res.db.client.end();
 			//res.db.client.connect();
-			res.db.client.query('select schedule_id, scheduled_time, first_name, last_name, diagnosis, protocol from ct_schedule', 
+			res.db.client.query('select schedule_id, scheduled_time, first_name, last_name, diagnosis, protocol from ct_schedule where YEAR(scheduled_time) = ? and MONTH(scheduled_time) = ? and DAY(scheduled_time) = ?', 
+				[req.params.year, req.params.month, req.params.day],
 			  function( error, results, fields){
 				if(error || results.length == 0){
-					req.flash('error', 'No Patients Scheduled');
+					console.log(results);
+					req.flash('error', req.params.id);
 					var flash = req.flash();
 					res.render('./index', {title: 'Error on login', error: true, flash: flash.error});
-					next(error);
+					res.db.client.end();
+					//next(error);
 				} else {
 					for(var i = 0; i < results.length; (++i)){
 						procedure = new Procedure(new Patient());
@@ -176,6 +179,9 @@ exports.new_schedule = function(req, res){
 					res.db.client.end();
 					res.render('schedule', { 
 						title: 'New Schedule',
+						year: req.params.year,
+						month: req.params.month,
+						day: req.params.day,
 						schedule: schedule.schedule
 					});
 				}

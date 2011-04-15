@@ -192,6 +192,7 @@ create table ProcedureStatus(
 	description varchar(100)
 ) engine = InnoDB; 
 
+insert into ProcedureStatus(description) values('Procedure Ordered');
 insert into ProcedureStatus(description) values('Front Desk');
 insert into ProcedureStatus(description) values('Changing');
 insert into ProcedureStatus(description) values('Triage');

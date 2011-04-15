@@ -94,12 +94,18 @@ div.list-item-patient-list{
 	border: 0 !important;
 }
 
+.click-to-add-procedure {
+	cursor: pointer;
+}
+
 /** end list view **/
 
 /** detail view **/
 
 #splitview-detail-view {
 	overflow: auto;
+	
+	background-image: url('../images/tartan_60e723a0546c1c2f71e5bc8b85a9f6ce.png');
 }
 
 #splitview-detail-view label, input {
@@ -120,5 +126,9 @@ div.list-item-patient-list{
 }
 
 #add-to-schedule-form {
+	background-color: #FFF;
 	margin: 1em;
+	padding: 1em;
+	border: 1px solid #000;
+	min-height: 60%;
 }

@@ -22,8 +22,16 @@
 	clear: left;
 }
 
+.float-left {
+	float: left;
+}
+
 .clear-left {
 	clear: left;
+}
+
+.float-right {
+	float: right;
 }
 
 .clear-right {
@@ -38,6 +46,7 @@
 	border:1px solid #ccc;
 	font-size:18px;
 	padding:4px;
+	margin: 0.15em;
 	width:180px;		
 	-moz-box-shadow:0 0 10px #eee inset;	
 }
@@ -193,4 +202,8 @@ ul#errors{
 
 .auto-height {
 	height: auto !important;
+}
+
+.little-padding {
+	padding: 0.5m;
 }
