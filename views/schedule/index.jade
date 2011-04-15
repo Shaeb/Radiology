@@ -12,23 +12,24 @@
 		p#detail-view-content-container
 	#add-to-schedule-form.hidden.detailItems.shadow
 		form(action="/ct/new.json/schedule", method="POST", id="new-schedule-form")
+			input(type='hidden', name='new_schedule[mytarget]', id='my_target', value='')
 			input(type='hidden', name='new_schedule[year]', value=year)
 			input(type='hidden', name='new_schedule[month]', value=month)
 			input(type='hidden', name='new_schedule[day]', value=day)
-			input(type='hidden', name='new_schedule[hour]', value='')
-			input(type='hidden', name='new_schedule[minute]', value='')
+			input(type='hidden', name='new_schedule[hour]',  id='new-schedule-hour', value='')
+			input(type='hidden', name='new_schedule[minute]',  id='new-schedule-minute', value='')
 			input(type='hidden', name='new_schedule[patient_id]', id='new-schedule-patient-id', value='')
-			input(type='hidden', name='new_schedule[study_id]', id='new-schedule-study-id', value='')
+			input(type='hidden', name='new_schedule[protocol_id]', id='new-schedule-protocol-id', value='')
 			input(type='hidden', name='new_schedule[diagnosis_id]', id='new-schedule-diagnosis-id', value='')
 			
 			h2 Patient Information
 			p.clear-left
 				label(for="new_schedule[patient]") Patient: 
-				input(type="text", rel="/ct/autosuggest.json/patient", name="new_schedule[patient]", id="new-schedule-patient", target='#new-schedule-patient').autosuggest-text.beautify.smart-autosuggest-needed
+				input(type="text", rel="/ct/autosuggest.json/patient", name="new_schedule[patient]", id="new-schedule-patient", target='#new-schedule-patient-id').autosuggest-text.beautify.smart-autosuggest-needed
 			h2.clear-left Study Information
 			p.clear-left.little-padding
 				label(for='new_schedule[study]') Study: 
-				input(type='text', name='new_schedule[study]', id='new-schedule-study', rel='/ct/autosuggest.json/studies', target='#new-schedule-study-id').autosuggest-text.smart-autosuggest-needed.beautify
+				input(type='text', name='new_schedule[study]', id='new-schedule-protocol', rel='/ct/autosuggest.json/studies', target='#new-schedule-protocol-id').autosuggest-text.smart-autosuggest-needed.beautify
 			p.clear-left
 				label(for='new_schedule[diagnosis]') Diagnosis: 
 				input(type='text', name='new_schedule[diagnosis]', id='new-schedule-diagnosis', rel='/ct/autosuggest.json/diagnoses', target='#new-schedule-diagnosis-id').autosuggest-text.smart-autosuggest-needed.beautify
@@ -36,8 +37,8 @@
 				label(for='new_schedule[date]') Date: 
 				input(type='date', name='new_schedule[date]', id='new-schedule-date').beautify
 			p.clear-left
-				label(for='new_schedule[time]') Time: 
-				input(type='text', name='new_schedule[time]', id='new-schedule-time', disabled).beautify
+				label(for='new_schedule[time-display]') Time: 
+				input(type='text', name='new_schedule[time-display]', id='new-schedule-time-display', disabled).beautify
 			p.clear-left
 				label &nbsp;
 				input(type='submit', name='new_schedule[submit]', id='new-schedule-submit', value='SAVE').beautify

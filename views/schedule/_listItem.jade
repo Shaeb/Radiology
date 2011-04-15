@@ -12,6 +12,8 @@ li(id='list-item-' + listItem.time, rel='#detail-view-content-item-' + listItem.
 					li= 'Diagnosis: ' + procedure.diagnosis
 			- var temp = []
 			- temp.length = amt
+			- var i = 0
 			- each item in temp
 				ul.list-no-decorations.list-item-procedure
-					li(rel=listItem.time).click-to-add-procedure Click to add a patient
+					li(rel=listItem.time, id='new-schedule-' + listItem.time + '-' + i).click-to-add-procedure Click to add a patient !{i}
+					- i++

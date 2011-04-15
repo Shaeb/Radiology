@@ -4,54 +4,67 @@ var Procedure = require('./models/Procedure.Model');
 
 // coordinator
 exports.dispatch = function(params, req, res){
-	switch(params.action){
-		case 'autosuggest':
-			var query = '';
-			switch(params.target){
-				case 'studies':
-					query = 'select id, description as label from ProcedureProtocols';
-					break;
-				case 'diagnoses':
-					query = 'select id, description as label from ProcedureDiagnoses';
-					break;
-				case 'patient':
-					switch(req.query.filter){
-						case 'mrn':
-							query = "select id, concat(first_name,' ', last_name) as label from patients where mrn like '" + req.query.term + "%'";
-							//params = [req.query.q];
-							break;
-						case 'patient':
-						default:
-							query = "select id, concat(first_name,' ', last_name) as label from patients where first_name like '%" + req.query.term + "%' or last_name like'%" + req.query.term + "%'";
-							//params = [req.query.q, req.query.q];
-						break;			
-					}
-					break;
-			}
-			exports.autosuggest(req, res, query);
+	if('POST' == req.method) {
+		switch(params.action){
+			case 'new':
+				switch(params.target){
+					case 'schedule':
+						exports.process_new_schedule(req, res);
+						break;
+				}
 			break;
-		case 'view':
-			switch(params.target){
-				case 'schedule':
-					exports.view_schedule(req, res);
+		}
+	} else {
+		switch(params.action){
+			case 'autosuggest':
+				var query = '';
+				switch(params.target){
+					case 'studies':
+						query = 'select id, description as label from ProcedureProtocols';
+						break;
+					case 'diagnoses':
+						query = 'select id, description as label from ProcedureDiagnoses';
+						break;
+					case 'patient':
+						switch(req.query.filter){
+							case 'mrn':
+								query = "select id, concat(first_name,' ', last_name) as label from patients where mrn like '" + req.query.term + "%'";
+								//params = [req.query.q];
+								break;
+							case 'patient':
+							default:
+								query = "select id, concat(first_name,' ', last_name) as label from patients where first_name like '%" + req.query.term + "%' or last_name like'%" + req.query.term + "%'";
+								//params = [req.query.q, req.query.q];
+								break;			
+						}
 					break;
-				case 'calendar':
-					var calendar = require('./models/Calendar.Model');
-					req.calendar = new calendar();
-					exports.view_calendar(req, res);
+				}
+				exports.autosuggest(req, res, query);
+				break;
+			case 'view':
+				switch(params.target){
+					case 'schedule':
+						exports.view_schedule(req, res);
+						break;
+					case 'calendar':
+						var calendar = require('./models/Calendar.Model');
+						req.calendar = new calendar();
+						exports.view_calendar(req, res);
+						break;
+					case 'form':
+						exports.view_form(req, res);
 					break;
-				case 'form':
-					exports.view_form(req, res);
-					break;
-			}
+				}
+				break;
+			case 'new':
+				switch(params.target){
+					case 'schedule':
+						exports.new_schedule(req, res);
+						break;
+				}
 			break;
-		case 'new':
-			switch(params.target){
-				case 'schedule':
-					exports.new_schedule(req, res);
-			}
-			break;
-	}	
+		}	
+	}
 };
 
 // GETs
@@ -159,7 +172,7 @@ exports.new_schedule = function(req, res){
 				[req.params.year, req.params.month, req.params.day],
 			  function( error, results, fields){
 				if(error || results.length == 0){
-					console.log(results);
+					//console.log(results);
 					req.flash('error', req.params.id);
 					var flash = req.flash();
 					res.render('./index', {title: 'Error on login', error: true, flash: flash.error});
@@ -274,6 +287,45 @@ exports.autosuggest = function(req, res, query){
 };
 
 // POSTs
+
+exports.process_new_schedule = function(req, res){
+	//console.log(req.body);
+	/**
+		new_schedule: 
+		   { year: '2011',
+		     month: '04',
+		     day: '01',
+		     hour: '07',
+		     minute: '00',
+		     patient_id: '4',
+		     protocol_id: '1',
+		     diagnosis_id: '2',
+		     patient: 'Georgie Bardgett',
+		     study: '',
+		     diagnosis: '',
+		     date: '04/15/11' }
+	**/
+	//insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(1, 1, 1, 1, '2011-04-01 07:00:00', 1);
+	var query = 'insert into Schedules(patient_id, area, diagnosis_id, protocol_id, scheduled_time, status) values(?, 1, ?, ?, ?, 1)';
+	var params = [req.body.new_schedule.patient_id, req.body.new_schedule.diagnosis_id, req.body.new_schedule.protocol_id, 
+		req.body.new_schedule.year + '-' + req.body.new_schedule.month + '-' + req.body.new_schedule.day + ' ' + 
+		req.body.new_schedule.hour + ':' + req.body.new_schedule.minute + ':00'];
+	res.db.client.connect();
+	res.db.client.query(query, params, function(error, info){
+		var response = {};
+		if(error) {
+			response.error = error;
+			console.log('error inserting into schedule: ' + error);
+		} else {
+			response.success = true;
+			response.id = info.insertId;
+		}
+		res.db.client.end();
+		res.contentType(req.params.format);
+		//console.log(JSON.stringify(response));
+		res.send(JSON.stringify(response));
+	});
+};
 
 exports.post = function(req,res){
 	var ct_form = req.mongoose.model;

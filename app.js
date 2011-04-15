@@ -79,6 +79,12 @@ app.get('/:area/:action.:format?/:target/:year?/:month?/:day?', setupDB, functio
 	}
 });
 
+app.post('/:area/:action.:format?/:target/:year?/:month?/:day?', setupDB, function(req, res){
+	if(req.params.area == 'ct'){
+		ct.dispatch(req.params, req, res);
+	}
+});
+
 // ct form
 app.get('/forms/:area/:id?', function(req, res){
 	switch(req.params.area){
